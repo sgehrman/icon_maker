@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:jovial_svg/jovial_svg.dart';
 
 const double _kWidth = 1024;
+const double _iconSize = 600;
 
 class CreateIconScreen extends StatefulWidget {
   @override
@@ -26,31 +27,10 @@ class CreateIconScreen extends StatefulWidget {
 
     final rect = Offset.zero & realSize;
 
-    final paint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.fill
-      ..color = color;
+    const color2 = Color.fromRGBO(0, 0, 0, 1);
+    const color22 = Color.fromRGBO(225, 111, 111, 1);
 
-    final Path path = Path();
-
-    path.moveTo(rect.topLeft.dx, rect.topLeft.dy);
-    path.lineTo(rect.topRight.dx, rect.centerRight.dy);
-    path.lineTo(rect.bottomLeft.dx, rect.bottomLeft.dy);
-
-    canvas.drawPath(path, paint);
-
-    const color2 = Color.fromRGBO(12, 43, 64, 1);
-    const color22 = Color.fromRGBO(12, 123, 124, 1);
-
-    final Paint paint2 = Paint();
-    paint2.shader = const LinearGradient(
-      colors: [color2, color22],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ).createShader(rect);
-
-    final double kIconSize = realSize.width / 2;
-    final Rect iconRect = Offset.zero & Size(kIconSize, kIconSize);
+    final Rect iconRect = Offset.zero & const Size(_iconSize, _iconSize);
 
     final Rect imageRect = Rect.fromCenter(
       center: rect.center,
@@ -58,8 +38,41 @@ class CreateIconScreen extends StatefulWidget {
       height: iconRect.height,
     );
 
+    final Paint gradientPaint = Paint();
+    gradientPaint.shader = const LinearGradient(
+      colors: [color2, color22],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ).createShader(rect);
+    gradientPaint.isAntiAlias = true;
+
+    final Paint blendPaint = Paint();
+    blendPaint.blendMode = ui.BlendMode.dstIn;
+    blendPaint.isAntiAlias = true;
+
+    // ------------------------------------------------
+    // draw oval
+    final ovalPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = color;
+
+    ovalPaint.shader = RadialGradient(
+      colors: [Colors.white, color],
+    ).createShader(rect);
+    canvas.drawOval(rect.deflate(12), ovalPaint);
+    // ------------------------------------------------
+
     if (image != null) {
-      canvas.drawImage(image, imageRect.topLeft, paint2);
+      // this gets rid of frame? not sure what is happening
+      // canvas.saveLayer(rect, Paint());
+      canvas.saveLayer(imageRect.deflate(6), Paint());
+
+      canvas.drawRect(imageRect, gradientPaint);
+
+      canvas.drawImage(image, imageRect.topLeft, blendPaint);
+
+      canvas.restore();
     }
   }
 }
@@ -78,9 +91,9 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
 
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
-      svg: MaterialSvgs.importContactsSharp,
-      width: _kWidth ~/ 2,
-      color: Colors.black,
+      svg: MaterialSvgs.surfingBaseline,
+      width: _iconSize.toInt(),
+      color: Colors.white,
     );
 
     ui.decodeImageFromList(iconData, (ui.Image img) {
@@ -207,18 +220,9 @@ class ImageProcessor {
     Color? color,
   }) async {
     try {
-      ScalableImage si = ScalableImage.fromSvgString(
+      final ScalableImage si = ScalableImage.fromSvgString(
         svg,
-        // currentColor: color,
       );
-
-      // currentColor above doesn't work?
-      if (color != null) {
-        si = si.modifyTint(
-          newTintMode: BlendMode.srcIn,
-          newTintColor: color,
-        );
-      }
 
       await si.prepareImages();
 
