@@ -130,7 +130,8 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
               onPressed: () async {
                 await saveImage();
 
-                savedImage = await File(iconPathForSize(1024)).readAsBytes();
+                savedImage =
+                    await File(iconPathForSize(size: 1024)).readAsBytes();
 
                 if (mounted) {
                   setState(() {});
@@ -161,9 +162,6 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
   }
 
   Future<void> saveImage() async {
-    final File file = File(iconPathForSize(1024));
-    file.createSync(recursive: true);
-
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
 
@@ -186,28 +184,44 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
 
     final imageData =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+    final File file = File(iconPathForSize(size: 1024));
+    file.createSync(recursive: true);
+
     await file.writeAsBytes(
       imageData,
     );
 
-    await saveImageWithSize(imageData, 16);
-    await saveImageWithSize(imageData, 32);
-    await saveImageWithSize(imageData, 64);
-    await saveImageWithSize(imageData, 128);
-    await saveImageWithSize(imageData, 256);
-    await saveImageWithSize(imageData, 512);
+    await saveImageWithSize(imageData: imageData, size: 16);
+    await saveImageWithSize(imageData: imageData, size: 32);
+    await saveImageWithSize(imageData: imageData, size: 64);
+    await saveImageWithSize(imageData: imageData, size: 128);
+    await saveImageWithSize(imageData: imageData, size: 256);
+    await saveImageWithSize(imageData: imageData, size: 512);
+
+    // windows icon
+    await saveImageWithSize(
+      imageData: imageData,
+      size: 256,
+      ico: true,
+    );
   }
 
-  String iconPathForSize(int size) {
+  String iconPathForSize({
+    required int size,
+    bool ico = false,
+  }) {
     const iconBasePath = './app_icon_';
+    final ext = ico ? '.ico' : '.png';
 
-    return '$iconBasePath$size.png';
+    return '$iconBasePath$size$ext';
   }
 
-  Future<void> saveImageWithSize(Uint8List imageData, int size) async {
-    final File file = File(iconPathForSize(size));
-    file.createSync(recursive: true);
-
+  Future<void> saveImageWithSize({
+    required Uint8List imageData,
+    required int size,
+    bool ico = false,
+  }) async {
     img.Image image = img.decodeImage(imageData)!;
 
     // shrink image
@@ -217,12 +231,23 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
       interpolation: img.Interpolation.average,
     );
 
-    // level: 0 is no compression
-    final Uint8List data = img.encodePng(image, level: 0);
+    try {
+      Uint8List data;
+      if (ico) {
+        data = img.encodeIco(image);
+      } else {
+        // level: 0 is no compression
+        data = img.encodePng(image, level: 0);
+      }
 
-    await file.writeAsBytes(
-      data,
-    );
+      final File file = File(iconPathForSize(size: size, ico: ico));
+      file.createSync(recursive: true);
+      await file.writeAsBytes(
+        data,
+      );
+    } catch (err) {
+      print(err);
+    }
   }
 }
 
