@@ -20,6 +20,26 @@ class ImageProcessor {
     );
   }
 
+  // ## must dispose
+  static Future<ui.Image> bytesToImage(Uint8List bytes) async {
+    final ui.ImmutableBuffer buffer =
+        await ui.ImmutableBuffer.fromUint8List(bytes);
+
+    final ui.ImageDescriptor descriptor =
+        await ui.ImageDescriptor.encoded(buffer);
+
+    final ui.Codec codec = await descriptor.instantiateCodec();
+
+    final ui.FrameInfo frameInfo = await codec.getNextFrame();
+
+    // not sure if this is necessary or even a good idea, but saw it in some flutter code
+    buffer.dispose();
+    codec.dispose();
+    descriptor.dispose();
+
+    return frameInfo.image;
+  }
+
   static Future<Uint8List> _jovialSvgToPng({
     required String svg,
     ui.Size? scaleTo,

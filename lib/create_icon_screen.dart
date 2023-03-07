@@ -17,6 +17,9 @@ class CreateIconScreen extends StatefulWidget {
 class _CreateIconScreenState extends State<CreateIconScreen> {
   Uint8List? savedImage;
   ui.Image? _image;
+  Uint8List? _favIcon;
+  static const _faviconPath = './favicon.png';
+  static const _faviconIcoPath = './favicon.ico';
 
   @override
   void initState() {
@@ -32,13 +35,35 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
       color: Colors.white,
     );
 
-    ui.decodeImageFromList(iconData, (ui.Image img) {
-      _image = img;
+    _image = await ImageProcessor.bytesToImage(iconData);
 
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _saveIcon() async {
+    await saveImage();
+
+    savedImage = await File(
+      iconPathForSize(size: IconPainter.baseIconSize.toInt()),
+    ).readAsBytes();
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _saveFavIcon() async {
+    await saveFavicon();
+
+    _favIcon = await File(
+      _faviconPath,
+    ).readAsBytes();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -49,23 +74,18 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
         child: Column(
           children: <Widget>[
             ElevatedButton(
-              onPressed: () async {
-                await saveImage();
-
-                savedImage = await File(
-                  iconPathForSize(size: IconPainter.baseIconSize.toInt()),
-                ).readAsBytes();
-
-                if (mounted) {
-                  setState(() {});
-                }
-              },
+              onPressed: _saveIcon,
               child: const Text('Save Icon'),
+            ),
+            ElevatedButton(
+              onPressed: _saveFavIcon,
+              child: const Text('Save FavIcon'),
             ),
             const SizedBox(height: 20),
             IconWidget(),
             const SizedBox(height: 20),
             if (savedImage != null) Image.memory(savedImage!),
+            if (_favIcon != null) Image.memory(_favIcon!),
           ],
         ),
       ),
@@ -82,6 +102,27 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
       Colors.cyan,
       _image,
     );
+
+    final ui.Picture pict = recorder.endRecording();
+
+    final ui.Image resultImage = await pict.toImage(size.toInt(), size.toInt());
+
+    final ByteData data =
+        (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
+
+    resultImage.dispose();
+
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  Future<Uint8List> _generateFavicon(double size) async {
+    final ui.PictureRecorder recorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(recorder);
+
+    final rect = Offset.zero & Size(size, size);
+    final ovalRect = rect.deflate(1);
+
+    canvas.drawPath(Path()..addOval(ovalRect), Paint()..color = Colors.cyan);
 
     final ui.Picture pict = recorder.endRecording();
 
@@ -118,6 +159,29 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
       imageData: imageData,
       size: 256,
       ico: true,
+    );
+  }
+
+  Future<void> saveFavicon() async {
+    var imageData = await _generateFavicon(32);
+
+    File file = File(_faviconPath);
+    file.createSync(recursive: true);
+
+    await file.writeAsBytes(
+      imageData,
+    );
+
+    // write out ico
+    final img.Image image = img.decodeImage(imageData)!;
+
+    imageData = img.encodeIco(image);
+
+    file = File(_faviconIcoPath);
+    file.createSync(recursive: true);
+
+    await file.writeAsBytes(
+      imageData,
     );
   }
 

@@ -28,9 +28,9 @@ class _IconWidgetState extends State<IconWidget> {
       color: Colors.white,
     );
 
-    ui.decodeImageFromList(iconData, (ui.Image img) {
-      _svgCompleter.complete(img);
-    });
+    final img = await ImageProcessor.bytesToImage(iconData);
+
+    _svgCompleter.complete(img);
   }
 
   @override
