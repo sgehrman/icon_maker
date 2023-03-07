@@ -47,7 +47,6 @@ class _IconWidgetState extends State<IconWidget> {
           child: ClipRect(
             child: CustomPaint(
               painter: IconPainter(
-                color: Colors.cyan,
                 image: image.data,
               ),
             ),

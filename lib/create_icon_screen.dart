@@ -99,7 +99,6 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
     IconPainter.paintIcon(
       canvas,
       Size(size, size),
-      Colors.cyan,
       _image,
     );
 
@@ -122,7 +121,10 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
     final rect = Offset.zero & Size(size, size);
     final ovalRect = rect.deflate(1);
 
-    canvas.drawPath(Path()..addOval(ovalRect), Paint()..color = Colors.cyan);
+    canvas.drawPath(
+      Path()..addOval(ovalRect),
+      Paint()..color = Colors.cyan[400]!,
+    );
 
     final ui.Picture pict = recorder.endRecording();
 

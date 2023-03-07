@@ -7,16 +7,14 @@ import 'package:flutter/material.dart';
 
 class IconPainter extends CustomPainter {
   const IconPainter({
-    required this.color,
     required this.image,
   });
 
-  final Color color;
   final ui.Image? image;
 
   @override
   void paint(Canvas canvas, Size size) {
-    paintIcon(canvas, size, color, image);
+    paintIcon(canvas, size, image);
   }
 
   @override
@@ -31,7 +29,6 @@ class IconPainter extends CustomPainter {
   static void paintIcon(
     Canvas canvas,
     Size size,
-    Color color,
     ui.Image? image,
   ) {
     const realSize = Size(baseIconSize, baseIconSize);
@@ -73,12 +70,14 @@ class IconPainter extends CustomPainter {
       true,
     );
 
+    const color = Colors.cyan;
+
     final ovalPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
       ..color = color;
 
-    ovalPaint.shader = RadialGradient(
+    ovalPaint.shader = const RadialGradient(
       colors: [Colors.white, color],
     ).createShader(ovalRect);
     canvas.drawOval(ovalRect, ovalPaint);
