@@ -28,7 +28,7 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
       svg: MaterialSvgs.surfingBaseline,
-      width: svgIconSize.toInt(),
+      width: IconPainter.svgIconSize.toInt(),
       color: Colors.white,
     );
 
@@ -52,9 +52,9 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
               onPressed: () async {
                 await saveImage();
 
-                savedImage =
-                    await File(iconPathForSize(size: baseIconSize.toInt()))
-                        .readAsBytes();
+                savedImage = await File(
+                  iconPathForSize(size: IconPainter.baseIconSize.toInt()),
+                ).readAsBytes();
 
                 if (mounted) {
                   setState(() {});
@@ -96,9 +96,10 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
   }
 
   Future<void> saveImage() async {
-    final imageData = await _generateIconData(baseIconSize);
+    final imageData = await _generateIconData(IconPainter.baseIconSize);
 
-    final File file = File(iconPathForSize(size: baseIconSize.toInt()));
+    final File file =
+        File(iconPathForSize(size: IconPainter.baseIconSize.toInt()));
     file.createSync(recursive: true);
 
     await file.writeAsBytes(

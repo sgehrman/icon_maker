@@ -24,7 +24,7 @@ class _IconWidgetState extends State<IconWidget> {
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
       svg: MaterialSvgs.surfingBaseline,
-      width: svgIconSize.toInt(),
+      width: IconPainter.svgIconSize.toInt(),
       color: Colors.white,
     );
 

@@ -3,9 +3,6 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 
-const double baseIconSize = 1024;
-const double svgIconSize = 600;
-
 // =========================================================
 
 class IconPainter extends CustomPainter {
@@ -24,6 +21,12 @@ class IconPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => oldDelegate != this;
+
+  // =======================================================
+  // static methods
+
+  static const double baseIconSize = 1024;
+  static const double svgIconSize = 600;
 
   static void paintIcon(
     Canvas canvas,
