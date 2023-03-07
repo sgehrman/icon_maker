@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 import 'package:jovial_svg/jovial_svg.dart';
 
 const double _kWidth = 1024;
@@ -92,7 +93,6 @@ class CreateIconScreen extends StatefulWidget {
 }
 
 class _CreateIconScreenState extends State<CreateIconScreen> {
-  String iconPath = './icon.png';
   Uint8List? savedImage;
   ui.Image? _image;
 
@@ -130,7 +130,7 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
               onPressed: () async {
                 await saveImage();
 
-                savedImage = await File(iconPath).readAsBytes();
+                savedImage = await File(iconPathForSize(1024)).readAsBytes();
 
                 if (mounted) {
                   setState(() {});
@@ -161,7 +161,7 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
   }
 
   Future<void> saveImage() async {
-    final File file = File(iconPath);
+    final File file = File(iconPathForSize(1024));
     file.createSync(recursive: true);
 
     final ui.PictureRecorder recorder = ui.PictureRecorder();
@@ -184,8 +184,44 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
 
     resultImage.dispose();
 
+    final imageData =
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await file.writeAsBytes(
-      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+      imageData,
+    );
+
+    await saveImageWithSize(imageData, 16);
+    await saveImageWithSize(imageData, 32);
+    await saveImageWithSize(imageData, 64);
+    await saveImageWithSize(imageData, 128);
+    await saveImageWithSize(imageData, 256);
+    await saveImageWithSize(imageData, 512);
+  }
+
+  String iconPathForSize(int size) {
+    const iconBasePath = './app_icon_';
+
+    return '$iconBasePath$size.png';
+  }
+
+  Future<void> saveImageWithSize(Uint8List imageData, int size) async {
+    final File file = File(iconPathForSize(size));
+    file.createSync(recursive: true);
+
+    img.Image image = img.decodeImage(imageData)!;
+
+    // shrink image
+    image = img.copyResize(
+      image,
+      width: size,
+      interpolation: img.Interpolation.average,
+    );
+
+    // level: 0 is no compression
+    final Uint8List data = img.encodePng(image, level: 0);
+
+    await file.writeAsBytes(
+      data,
     );
   }
 }
