@@ -121,10 +121,19 @@ class _CreateIconScreenState extends State<CreateIconScreen> {
     final rect = Offset.zero & Size(size, size);
     final ovalRect = rect.deflate(1);
 
-    canvas.drawPath(
-      Path()..addOval(ovalRect),
-      Paint()..color = Colors.cyan[400]!,
-    );
+    const color = Colors.cyan;
+    final startColor = Colors.white.mix(Colors.cyan, 0.5) ?? Colors.white;
+
+    final ovalPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = color;
+
+    ovalPaint.shader = RadialGradient(
+      radius: 1,
+      colors: [startColor, color],
+    ).createShader(ovalRect);
+    canvas.drawOval(ovalRect, ovalPaint);
 
     final ui.Picture pict = recorder.endRecording();
 
