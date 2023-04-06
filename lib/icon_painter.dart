@@ -44,8 +44,61 @@ class IconPainter extends CustomPainter {
       height: svgIconSize,
     );
 
+    // ===============================================
+
+    final mainRect = rect.deflate(18);
+    final innerRect = rect.deflate(90);
+
     const startColor = Color.fromRGBO(55, 55, 55, 1);
     const endColor = Color.fromRGBO(105, 155, 222, 1);
+
+    final outerRRect = RRect.fromRectAndRadius(
+      mainRect,
+      const Radius.circular(165),
+    );
+
+    final backPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = startColor.mix(endColor, 0.4)!;
+
+    canvas.drawShadow(
+      Path()..addRRect(outerRRect),
+      Colors.black,
+      10,
+      true,
+    );
+
+    canvas.drawRRect(outerRRect, backPaint);
+
+    // =================================================
+
+    const color = Colors.cyan;
+
+    final rrectPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = color;
+
+    rrectPaint.shader = const RadialGradient(
+      colors: [Colors.white, color],
+    ).createShader(mainRect);
+
+    canvas.drawOval(innerRect, rrectPaint);
+
+    final framePaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 6
+      ..color = Colors.grey[800]!;
+
+    canvas.drawOval(innerRect, framePaint);
+
+    // ===============================================
+
+    final Paint blendPaint = Paint();
+    blendPaint.blendMode = ui.BlendMode.dstIn;
+    blendPaint.isAntiAlias = true;
 
     final Paint gradientPaint = Paint();
     gradientPaint.shader = const LinearGradient(
@@ -55,49 +108,12 @@ class IconPainter extends CustomPainter {
     ).createShader(rect);
     gradientPaint.isAntiAlias = true;
 
-    final Paint blendPaint = Paint();
-    blendPaint.blendMode = ui.BlendMode.dstIn;
-    blendPaint.isAntiAlias = true;
-
-    // ------------------------------------------------
-    // draw oval
-    final ovalRect = rect.deflate(12);
-
-    canvas.drawShadow(
-      Path()..addOval(ovalRect),
-      Colors.black,
-      12,
-      true,
-    );
-
-    const color = Colors.cyan;
-
-    final ovalPaint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.fill
-      ..color = color;
-
-    ovalPaint.shader = const RadialGradient(
-      colors: [Colors.white, color],
-    ).createShader(ovalRect);
-    canvas.drawOval(ovalRect, ovalPaint);
-
-    final ovalLinePaint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 60
-      ..color = startColor.mix(endColor, 0.4)!;
-
-    canvas.drawPath(Path()..addOval(ovalRect.deflate(30)), ovalLinePaint);
-
-    // ------------------------------------------------
-
     if (image != null) {
       // this gets rid of frame? not sure what is happening
       // canvas.saveLayer(rect, Paint());
       canvas.saveLayer(imageRect.deflate(6), Paint());
 
-      canvas.drawRect(imageRect, gradientPaint);
+      canvas.drawOval(imageRect, gradientPaint);
       canvas.drawImage(image, imageRect.topLeft, blendPaint);
 
       canvas.restore();

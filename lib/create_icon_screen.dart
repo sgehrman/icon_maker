@@ -9,12 +9,12 @@ import 'package:icon_maker/icon_widget.dart';
 import 'package:icon_maker/image_processor.dart';
 import 'package:image/image.dart' as img;
 
-class CreateIconScreen extends StatefulWidget {
+class KreateIconScreen extends StatefulWidget {
   @override
-  State<CreateIconScreen> createState() => _CreateIconScreenState();
+  State<KreateIconScreen> createState() => _KreateIconScreenState();
 }
 
-class _CreateIconScreenState extends State<CreateIconScreen> {
+class _KreateIconScreenState extends State<KreateIconScreen> {
   Uint8List? savedImage;
   ui.Image? _image;
   Uint8List? _favIcon;
