@@ -6,28 +6,133 @@ import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
+enum TrayIconMode {
+  cyan,
+  white,
+  black,
+  red,
+  green,
+  blue,
+  yellow,
+  orange,
+}
+
+enum TrayIconSize {
+  small,
+  medium,
+  large,
+}
+
 class TrayIcon {
-  static const faviconPath = './favicon.png';
-  static const faviconIcoPath = './favicon.ico';
+  // static const TrayIconMode _mode = TrayIconMode.cyan;
+  // static const TrayIconSize _size = TrayIconSize.large;
+  static const TrayIconMode _mode = TrayIconMode.white;
+  static const TrayIconSize _size = TrayIconSize.small;
+
+  static Color get _fillColor {
+    switch (_mode) {
+      case TrayIconMode.cyan:
+        return Colors.cyan;
+      case TrayIconMode.white:
+        return Colors.white;
+      case TrayIconMode.black:
+        return Colors.black;
+      case TrayIconMode.red:
+        return Colors.red;
+      case TrayIconMode.orange:
+        return Colors.deepOrange;
+      case TrayIconMode.green:
+        return Colors.green;
+      case TrayIconMode.blue:
+        return Colors.blue;
+      case TrayIconMode.yellow:
+        return Colors.yellow;
+    }
+  }
+
+  static double get _iconInset {
+    switch (_size) {
+      case TrayIconSize.small:
+        return 5;
+      case TrayIconSize.medium:
+        return 3;
+      case TrayIconSize.large:
+        break;
+    }
+
+    return 1;
+  }
+
+  static String get _nameTags {
+    String result = '';
+
+    switch (_mode) {
+      case TrayIconMode.cyan:
+        result += '-cyan';
+        break;
+      case TrayIconMode.white:
+        result += '-white';
+        break;
+      case TrayIconMode.black:
+        result += '-black';
+        break;
+      case TrayIconMode.red:
+        result += '-red';
+        break;
+      case TrayIconMode.orange:
+        result += '-orange';
+        break;
+      case TrayIconMode.green:
+        result += '-green';
+        break;
+      case TrayIconMode.blue:
+        result += '-blue';
+        break;
+      case TrayIconMode.yellow:
+        result += '-yellow';
+        break;
+    }
+
+    switch (_size) {
+      case TrayIconSize.small:
+        result += '-sm';
+        break;
+      case TrayIconSize.medium:
+        result += '-md';
+        break;
+      case TrayIconSize.large:
+        result += '-lg';
+        break;
+    }
+
+    return result;
+  }
+
+  static String get faviconPath {
+    return './favicon$_nameTags.png';
+  }
+
+  static String get faviconIcoPath {
+    return './favicon$_nameTags.ico';
+  }
 
   static Future<Uint8List> _generateFavicon(double size) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
 
     final rect = Offset.zero & Size(size, size);
-    final ovalRect = rect.deflate(1);
+    final ovalRect = rect.deflate(_iconInset);
 
-    const color = Colors.cyan;
-    final startColor = Colors.white.mix(Colors.cyan, 0.5) ?? Colors.white;
+    final startColor = Colors.white.mix(_fillColor, 0.5) ?? Colors.white;
 
     final ovalPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
-      ..color = color;
+      ..color = _fillColor;
 
     ovalPaint.shader = RadialGradient(
       radius: 1,
-      colors: [startColor, color],
+      colors: [startColor, _fillColor],
     ).createShader(ovalRect);
     canvas.drawOval(ovalRect, ovalPaint);
 
