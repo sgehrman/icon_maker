@@ -24,13 +24,13 @@ enum TrayIconSize {
 }
 
 class TrayIcon {
-  // static const TrayIconMode _mode = TrayIconMode.cyan;
-  // static const TrayIconSize _size = TrayIconSize.large;
-  static const TrayIconMode _mode = TrayIconMode.white;
-  static const TrayIconSize _size = TrayIconSize.small;
+  TrayIcon(this.size, this.colorMode);
 
-  static Color get _fillColor {
-    switch (_mode) {
+  final TrayIconMode colorMode;
+  final TrayIconSize size;
+
+  Color get _fillColor {
+    switch (colorMode) {
       case TrayIconMode.cyan:
         return Colors.cyan;
       case TrayIconMode.white:
@@ -50,23 +50,21 @@ class TrayIcon {
     }
   }
 
-  static double get _iconInset {
-    switch (_size) {
+  double get _iconInset {
+    switch (size) {
       case TrayIconSize.small:
-        return 5;
+        return 6;
       case TrayIconSize.medium:
         return 3;
       case TrayIconSize.large:
-        break;
+        return 1;
     }
-
-    return 1;
   }
 
-  static String get _nameTags {
+  String get _nameTags {
     String result = '';
 
-    switch (_mode) {
+    switch (colorMode) {
       case TrayIconMode.cyan:
         result += '-cyan';
         break;
@@ -93,7 +91,7 @@ class TrayIcon {
         break;
     }
 
-    switch (_size) {
+    switch (size) {
       case TrayIconSize.small:
         result += '-sm';
         break;
@@ -108,15 +106,15 @@ class TrayIcon {
     return result;
   }
 
-  static String get faviconPath {
+  String get faviconPath {
     return './favicon$_nameTags.png';
   }
 
-  static String get faviconIcoPath {
+  String get faviconIcoPath {
     return './favicon$_nameTags.ico';
   }
 
-  static Future<Uint8List> _generateFavicon(double size) async {
+  Future<Uint8List> _generateFavicon(double size) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
 
@@ -148,7 +146,7 @@ class TrayIcon {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-  static Future<void> saveFavIcon() async {
+  Future<void> saveFavIcon() async {
     var imageData = await _generateFavicon(32);
 
     File file = File(faviconPath);
