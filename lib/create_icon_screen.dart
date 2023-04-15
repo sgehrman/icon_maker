@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:icon_maker/icon_painter.dart';
 import 'package:icon_maker/icon_widget.dart';
 import 'package:icon_maker/image_processor.dart';
+import 'package:icon_maker/tray_icon.dart';
 import 'package:image/image.dart' as img;
 
 class KreateIconScreen extends StatefulWidget {
@@ -18,8 +19,6 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
   Uint8List? savedImage;
   ui.Image? _image;
   Uint8List? _favIcon;
-  static const _faviconPath = './favicon.png';
-  static const _faviconIcoPath = './favicon.ico';
 
   @override
   void initState() {
@@ -55,10 +54,10 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
   }
 
   Future<void> _saveFavIcon() async {
-    await saveFavicon();
+    await TrayIcon.saveFavIcon();
 
     _favIcon = await File(
-      _faviconPath,
+      TrayIcon.faviconPath,
     ).readAsBytes();
 
     if (mounted) {
@@ -114,39 +113,6 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-  Future<Uint8List> _generateFavicon(double size) async {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
-
-    final rect = Offset.zero & Size(size, size);
-    final ovalRect = rect.deflate(1);
-
-    const color = Colors.cyan;
-    final startColor = Colors.white.mix(Colors.cyan, 0.5) ?? Colors.white;
-
-    final ovalPaint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.fill
-      ..color = color;
-
-    ovalPaint.shader = RadialGradient(
-      radius: 1,
-      colors: [startColor, color],
-    ).createShader(ovalRect);
-    canvas.drawOval(ovalRect, ovalPaint);
-
-    final ui.Picture pict = recorder.endRecording();
-
-    final ui.Image resultImage = await pict.toImage(size.toInt(), size.toInt());
-
-    final ByteData data =
-        (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
-
-    resultImage.dispose();
-
-    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-  }
-
   Future<void> saveImage() async {
     final imageData = await _generateIconData(IconPainter.baseIconSize);
 
@@ -170,29 +136,6 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
       imageData: imageData,
       size: 256,
       ico: true,
-    );
-  }
-
-  Future<void> saveFavicon() async {
-    var imageData = await _generateFavicon(32);
-
-    File file = File(_faviconPath);
-    file.createSync(recursive: true);
-
-    await file.writeAsBytes(
-      imageData,
-    );
-
-    // write out ico
-    final img.Image image = img.decodeImage(imageData)!;
-
-    imageData = img.encodeIco(image);
-
-    file = File(_faviconIcoPath);
-    file.createSync(recursive: true);
-
-    await file.writeAsBytes(
-      imageData,
     );
   }
 
