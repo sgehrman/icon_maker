@@ -55,20 +55,18 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
 
   Future<void> _saveFavIcon() async {
     // ----------------------------------------------------------------
-    // generate a few we use
-    TrayIcon tmp = TrayIcon(TrayIconSize.large, TrayIconMode.white);
-    await tmp.saveFavIcon();
+    // generate all combos
 
-    tmp = TrayIcon(TrayIconSize.small, TrayIconMode.white);
-    await tmp.saveFavIcon();
+    for (final mode in TrayIconMode.values) {
+      for (final size in TrayIconSize.values) {
+        final TrayIcon tmp = TrayIcon(size, mode);
+        await tmp.saveFavIcon();
+      }
+    }
 
-    tmp = TrayIcon(TrayIconSize.small, TrayIconMode.cyan);
-    await tmp.saveFavIcon();
     // ----------------------------------------------------------------
 
     final TrayIcon trIcn = TrayIcon(TrayIconSize.large, TrayIconMode.cyan);
-    await trIcn.saveFavIcon();
-
     _favIcon = await File(
       trIcn.faviconPath,
     ).readAsBytes();
