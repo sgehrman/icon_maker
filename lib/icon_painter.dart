@@ -48,7 +48,7 @@ class IconPainter extends CustomPainter {
     // ===============================================
 
     final mainRect = rect.deflate(18);
-    final innerRect = rect.deflate(90);
+    final ovalRect = rect.deflate(100);
 
     const startColor = Color.fromRGBO(45, 45, 45, 1);
     const endColor = Color.fromRGBO(59, 112, 158, 1);
@@ -111,7 +111,7 @@ class IconPainter extends CustomPainter {
         end: Alignment.bottomCenter,
       ).createShader(mainRect);
 
-    canvas.drawOval(innerRect, centerOvalPaint);
+    canvas.drawOval(ovalRect, centerOvalPaint);
 
     final centerOvalPaint2 = Paint()
       ..isAntiAlias = true
@@ -121,7 +121,7 @@ class IconPainter extends CustomPainter {
         radius: 0.4,
       ).createShader(mainRect);
 
-    canvas.drawOval(innerRect, centerOvalPaint2);
+    canvas.drawOval(ovalRect, centerOvalPaint2);
 
     // ===============================================
     // frame around oval
@@ -139,7 +139,7 @@ class IconPainter extends CustomPainter {
         end: Alignment.bottomCenter,
       ).createShader(rect);
 
-    canvas.drawOval(innerRect, ovalBorderPaint);
+    canvas.drawOval(ovalRect, ovalBorderPaint);
 
     // ===============================================
     // draw icon in center
