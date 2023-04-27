@@ -87,9 +87,15 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
               onPressed: _saveIcon,
               child: const Text('Save Icon'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _saveFavIcon,
               child: const Text('Save FavIcon'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: saveSafariIconImages,
+              child: const Text('Save Safari Icons'),
             ),
             const SizedBox(height: 20),
             IconWidget(),
@@ -184,6 +190,74 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
       }
 
       final File file = File(iconPathForSize(size: size, ico: ico));
+      file.createSync(recursive: true);
+      await file.writeAsBytes(
+        data,
+      );
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  // ============================================================
+  // safari images
+
+  String iconPathForSafari({
+    required int size,
+    bool twoX = false,
+  }) {
+    const iconBasePath = './mac-icon-';
+    final numX = twoX ? '@2x' : '@1x';
+
+    return '$iconBasePath$size$numX.png';
+  }
+
+  Future<void> saveSafariIconImages() async {
+    final imageData = await _generateIconData(IconPainter.baseIconSize);
+
+    await saveSafariImageWithSize(imageData: imageData, size: 16);
+    await saveSafariImageWithSize(imageData: imageData, size: 32);
+    await saveSafariImageWithSize(imageData: imageData, size: 128);
+    await saveSafariImageWithSize(imageData: imageData, size: 256);
+    await saveSafariImageWithSize(imageData: imageData, size: 512);
+  }
+
+  Future<void> saveSafariImageWithSize({
+    required Uint8List imageData,
+    required int size,
+  }) async {
+    await doSaveSafariImageWithSize(
+      imageData: imageData,
+      size: size,
+      twoX: false,
+    );
+
+    await doSaveSafariImageWithSize(
+      imageData: imageData,
+      size: size,
+      twoX: true,
+    );
+  }
+
+  Future<void> doSaveSafariImageWithSize({
+    required Uint8List imageData,
+    required int size,
+    required bool twoX,
+  }) async {
+    img.Image image = img.decodeImage(imageData)!;
+
+    // shrink image
+    image = img.copyResize(
+      image,
+      width: twoX ? size * 2 : size,
+      interpolation: img.Interpolation.average,
+    );
+
+    try {
+      // level: 0 is no compression
+      final data = img.encodePng(image, level: 0);
+
+      final File file = File(iconPathForSafari(size: size, twoX: twoX));
       file.createSync(recursive: true);
       await file.writeAsBytes(
         data,
