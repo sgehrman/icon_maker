@@ -177,7 +177,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     try {
       Uint8List data;
       if (ico) {
-        data = img.encodeIco(image);
+        data = img.encodeIco(image, singleFrame: true);
       } else {
         // level: 0 is no compression
         data = img.encodePng(image, level: 0);

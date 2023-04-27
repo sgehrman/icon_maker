@@ -50,17 +50,24 @@ class IconPainter extends CustomPainter {
     final innerRect = rect.deflate(90);
 
     const startColor = Color.fromRGBO(55, 55, 55, 1);
-    const endColor = Color.fromRGBO(105, 155, 222, 1);
+    const lightBlue = ui.Color.fromRGBO(59, 112, 158, 1);
 
     final outerRRect = RRect.fromRectAndRadius(
       mainRect,
-      const Radius.circular(165),
+      const Radius.circular(250),
     );
+
+    final backStartColor = startColor.mix(lightBlue, 0.7)!;
+    final backEndColor = startColor.mix(lightBlue, 0.2)!;
 
     final backPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
-      ..color = startColor.mix(endColor, 0.4)!;
+      ..shader = LinearGradient(
+        colors: [backStartColor, backEndColor],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(rect);
 
     canvas.drawShadow(
       Path()..addRRect(outerRRect),
@@ -72,37 +79,65 @@ class IconPainter extends CustomPainter {
     canvas.drawRRect(outerRRect, backPaint);
 
     // =================================================
+    // stroke around background
 
-    const color = Colors.cyan;
+    final borderStartColor = startColor.mix(lightBlue, 0.4)!;
+    final borderEndColor = startColor.mix(lightBlue, 0.1)!;
+
+    final borderPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.stroke
+      ..shader = LinearGradient(
+        colors: [borderStartColor, borderEndColor],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(rect);
+
+    canvas.drawRRect(outerRRect, borderPaint);
+
+    // =================================================
+
+    const centerOvalColor = Colors.cyan;
 
     final rrectPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
-      ..color = color;
+      ..color = centerOvalColor;
 
     rrectPaint.shader = const RadialGradient(
-      colors: [Colors.white, color],
+      colors: [Colors.white, centerOvalColor],
     ).createShader(mainRect);
 
     canvas.drawOval(innerRect, rrectPaint);
 
-    final framePaint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 6
-      ..color = Colors.grey[800]!;
+    // ===============================================
+    // frame around oval
 
-    canvas.drawOval(innerRect, framePaint);
+    final ovalBorderStartColor = Colors.grey[600]!;
+    final ovalBorderEndColor = Colors.grey[900]!;
+
+    final ovalBorderPaint = Paint()
+      ..isAntiAlias = true
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke
+      ..shader = LinearGradient(
+        colors: [ovalBorderStartColor, ovalBorderEndColor],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(rect);
+
+    canvas.drawOval(innerRect, ovalBorderPaint);
 
     // ===============================================
+    // draw icon in center
 
     final Paint blendPaint = Paint();
     blendPaint.blendMode = ui.BlendMode.dstIn;
     blendPaint.isAntiAlias = true;
 
     final Paint gradientPaint = Paint();
-    gradientPaint.shader = const LinearGradient(
-      colors: [startColor, endColor],
+    gradientPaint.shader = LinearGradient(
+      colors: [backStartColor, backEndColor],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ).createShader(rect);
