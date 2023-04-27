@@ -50,6 +50,27 @@ class TrayIcon {
     }
   }
 
+  Color get _startColor {
+    double whiteMix = 0.5;
+
+    switch (colorMode) {
+      case TrayIconMode.cyan:
+      case TrayIconMode.white:
+      case TrayIconMode.red:
+      case TrayIconMode.orange:
+      case TrayIconMode.green:
+      case TrayIconMode.blue:
+      case TrayIconMode.yellow:
+        break;
+      case TrayIconMode.black:
+        // too much white on black is ugly
+        whiteMix = 0.9;
+        break;
+    }
+
+    return Colors.white.mix(_fillColor, whiteMix) ?? Colors.white;
+  }
+
   double get _iconInset {
     switch (size) {
       case TrayIconSize.small:
@@ -107,11 +128,11 @@ class TrayIcon {
   }
 
   String get faviconPath {
-    return './favicon$_nameTags.png';
+    return './icons/png/favicon$_nameTags.png';
   }
 
   String get faviconIcoPath {
-    return './favicon$_nameTags.ico';
+    return './icons/ico/favicon$_nameTags.ico';
   }
 
   Future<Uint8List> _generateFavicon(double size) async {
@@ -121,8 +142,6 @@ class TrayIcon {
     final rect = Offset.zero & Size(size, size);
     final ovalRect = rect.deflate(_iconInset);
 
-    final startColor = Colors.white.mix(_fillColor, 0.5) ?? Colors.white;
-
     final ovalPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
@@ -130,7 +149,7 @@ class TrayIcon {
 
     ovalPaint.shader = RadialGradient(
       radius: 1,
-      colors: [startColor, _fillColor],
+      colors: [_startColor, _fillColor],
     ).createShader(ovalRect);
     canvas.drawOval(ovalRect, ovalPaint);
 
