@@ -97,19 +97,31 @@ class IconPainter extends CustomPainter {
     canvas.drawRRect(outerRRect, borderPaint);
 
     // =================================================
+    // cemter oval
 
     const centerOvalColor = Colors.cyan;
+    const centerOvalEndColor = ui.Color.fromARGB(255, 0, 125, 142);
 
-    final rrectPaint = Paint()
+    final centerOvalPaint = Paint()
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
-      ..color = centerOvalColor;
+      ..shader = const LinearGradient(
+        colors: [centerOvalColor, centerOvalEndColor],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(mainRect);
 
-    rrectPaint.shader = const RadialGradient(
-      colors: [Colors.white, centerOvalColor],
-    ).createShader(mainRect);
+    canvas.drawOval(innerRect, centerOvalPaint);
 
-    canvas.drawOval(innerRect, rrectPaint);
+    final centerOvalPaint2 = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..shader = RadialGradient(
+        colors: [Colors.white, Colors.white.withOpacity(0)],
+        radius: 0.4,
+      ).createShader(mainRect);
+
+    canvas.drawOval(innerRect, centerOvalPaint2);
 
     // ===============================================
     // frame around oval
