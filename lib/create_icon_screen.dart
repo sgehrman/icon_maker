@@ -110,14 +110,18 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     );
   }
 
-  Future<Uint8List> _generateIconData(double size) async {
+  Future<Uint8List> _generateIconData({
+    required bool insetImage,
+  }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
+    const size = IconPainter.baseIconSize;
 
     IconPainter.paintIcon(
-      canvas,
-      Size(size, size),
-      _image,
+      canvas: canvas,
+      size: const Size(size, size),
+      image: _image,
+      insetImage: insetImage,
     );
 
     final ui.Picture pict = recorder.endRecording();
@@ -133,7 +137,8 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
   }
 
   Future<void> saveImage() async {
-    final imageData = await _generateIconData(IconPainter.baseIconSize);
+    final imageData = await _generateIconData(insetImage: true);
+    final imageDataNoInset = await _generateIconData(insetImage: false);
 
     final File file =
         File(iconPathForSize(size: IconPainter.baseIconSize.toInt()));
@@ -143,7 +148,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
       imageData,
     );
 
-    await saveImageWithSize(imageData: imageData, size: 16);
+    await saveImageWithSize(imageData: imageDataNoInset, size: 16);
     await saveImageWithSize(imageData: imageData, size: 32);
     await saveImageWithSize(imageData: imageData, size: 64);
     await saveImageWithSize(imageData: imageData, size: 128);
@@ -215,9 +220,10 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
   }
 
   Future<void> saveSafariIconImages() async {
-    final imageData = await _generateIconData(IconPainter.baseIconSize);
+    final imageData = await _generateIconData(insetImage: true);
+    final imageDataNoInset = await _generateIconData(insetImage: false);
 
-    await saveSafariImageWithSize(imageData: imageData, size: 16);
+    await saveSafariImageWithSize(imageData: imageDataNoInset, size: 16);
     await saveSafariImageWithSize(imageData: imageData, size: 32);
     await saveSafariImageWithSize(imageData: imageData, size: 128);
     await saveSafariImageWithSize(imageData: imageData, size: 256);

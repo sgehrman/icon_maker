@@ -8,14 +8,22 @@ import 'package:flutter/material.dart';
 class IconPainter extends CustomPainter {
   const IconPainter({
     required this.image,
+    this.insetImage = true,
   });
 
   final ui.Image? image;
+  final bool insetImage;
+
   static bool safariMode = false;
 
   @override
   void paint(Canvas canvas, Size size) {
-    paintIcon(canvas, size, image);
+    paintIcon(
+      canvas: canvas,
+      size: size,
+      image: image,
+      insetImage: insetImage,
+    );
   }
 
   @override
@@ -27,11 +35,12 @@ class IconPainter extends CustomPainter {
   static const double baseIconSize = 1024;
   static double svgIconSize = IconPainter.safariMode ? 500 : 600;
 
-  static void paintIcon(
-    Canvas canvas,
-    Size size,
-    ui.Image? image,
-  ) {
+  static void paintIcon({
+    required Canvas canvas,
+    required Size size,
+    required ui.Image? image,
+    required bool insetImage,
+  }) {
     const realSize = Size(baseIconSize, baseIconSize);
     final scale = size.width / realSize.width;
 
@@ -47,7 +56,8 @@ class IconPainter extends CustomPainter {
 
     // ===============================================
 
-    final mainRect = rect.deflate(20);
+    // insetImage set to false for small images, don't waste space
+    final mainRect = rect.deflate(insetImage ? 20 : 0);
     final ovalRect = mainRect.deflate(80);
 
     const startColor = Color.fromRGBO(45, 45, 45, 1);
