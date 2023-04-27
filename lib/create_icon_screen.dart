@@ -149,7 +149,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     );
 
     await saveImageWithSize(imageData: imageDataNoInset, size: 16);
-    await saveImageWithSize(imageData: imageData, size: 32);
+    await saveImageWithSize(imageData: imageDataNoInset, size: 32);
     await saveImageWithSize(imageData: imageData, size: 64);
     await saveImageWithSize(imageData: imageData, size: 128);
     await saveImageWithSize(imageData: imageData, size: 256);
@@ -224,7 +224,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     final imageDataNoInset = await _generateIconData(insetImage: false);
 
     await saveSafariImageWithSize(imageData: imageDataNoInset, size: 16);
-    await saveSafariImageWithSize(imageData: imageData, size: 32);
+    await saveSafariImageWithSize(imageData: imageDataNoInset, size: 32);
     await saveSafariImageWithSize(imageData: imageData, size: 128);
     await saveSafariImageWithSize(imageData: imageData, size: 256);
     await saveSafariImageWithSize(imageData: imageData, size: 512);

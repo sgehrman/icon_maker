@@ -57,7 +57,7 @@ class IconPainter extends CustomPainter {
     // ===============================================
 
     // insetImage set to false for small images, don't waste space
-    final mainRect = rect.deflate(insetImage ? 20 : 0);
+    final mainRect = rect.deflate(insetImage ? 30 : 0);
     final ovalRect = mainRect.deflate(80);
 
     const startColor = Color.fromRGBO(45, 45, 45, 1);
@@ -83,7 +83,7 @@ class IconPainter extends CustomPainter {
     canvas.drawShadow(
       Path()..addRRect(outerRRect),
       Colors.black,
-      10,
+      16,
       true,
     );
 
