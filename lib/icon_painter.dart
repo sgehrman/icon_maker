@@ -47,8 +47,8 @@ class IconPainter extends CustomPainter {
 
     // ===============================================
 
-    final mainRect = rect.deflate(18);
-    final ovalRect = rect.deflate(100);
+    final mainRect = rect.deflate(20);
+    final ovalRect = mainRect.deflate(80);
 
     const startColor = Color.fromRGBO(45, 45, 45, 1);
     const endColor = Color.fromRGBO(59, 112, 158, 1);
