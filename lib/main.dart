@@ -44,18 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        // actions: [
-        //   DFIconButton(
-        //     onPressed: () {
-        //       Navigator.of(context).push(
-        //         MaterialPageRoute(
-        //           builder: (context) => ScreenshotScreen(),
-        //         ),
-        //       );
-        //     },
-        //     icon: const Icon(Icons.snowboarding),
-        //   ),
-        // ],
       ),
       body: KreateIconScreen(),
     );
