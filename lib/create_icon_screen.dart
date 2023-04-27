@@ -162,7 +162,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     required int size,
     bool ico = false,
   }) {
-    const iconBasePath = './app_icon_';
+    const iconBasePath = './icons/app_icon_';
     final ext = ico ? '.ico' : '.png';
 
     return '$iconBasePath$size$ext';
@@ -208,7 +208,7 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
     required int size,
     bool twoX = false,
   }) {
-    const iconBasePath = './mac-icon-';
+    const iconBasePath = './icons/mac-icon-';
     final numX = twoX ? '@2x' : '@1x';
 
     return '$iconBasePath$size$numX.png';

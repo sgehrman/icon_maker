@@ -50,16 +50,16 @@ class IconPainter extends CustomPainter {
     final mainRect = rect.deflate(18);
     final innerRect = rect.deflate(90);
 
-    const startColor = Color.fromRGBO(55, 55, 55, 1);
-    const lightBlue = ui.Color.fromRGBO(59, 112, 158, 1);
+    const startColor = Color.fromRGBO(45, 45, 45, 1);
+    const endColor = Color.fromRGBO(59, 112, 158, 1);
 
     final outerRRect = RRect.fromRectAndRadius(
       mainRect,
       const Radius.circular(250),
     );
 
-    final backStartColor = startColor.mix(lightBlue, 0.7)!;
-    final backEndColor = startColor.mix(lightBlue, 0.2)!;
+    final backStartColor = startColor.mix(endColor, 0.7)!;
+    final backEndColor = startColor.mix(endColor, 0.2)!;
 
     final backPaint = Paint()
       ..isAntiAlias = true
@@ -82,8 +82,8 @@ class IconPainter extends CustomPainter {
     // =================================================
     // stroke around background
 
-    final borderStartColor = startColor.mix(lightBlue, 0.4)!;
-    final borderEndColor = startColor.mix(lightBlue, 0.1)!;
+    final borderStartColor = startColor.mix(endColor, 0.4)!;
+    final borderEndColor = startColor.mix(endColor, 0.1)!;
 
     final borderPaint = Paint()
       ..isAntiAlias = true
