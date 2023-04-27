@@ -29,7 +29,9 @@ class _KreateIconScreenState extends State<KreateIconScreen> {
 
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
-      svg: MaterialSvgs.surfingBaseline,
+      svg: IconPainter.safariMode
+          ? MaterialSvgs.extensionBaseline
+          : MaterialSvgs.surfingBaseline,
       width: IconPainter.svgIconSize.toInt(),
       color: Colors.white,
     );

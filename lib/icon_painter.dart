@@ -11,6 +11,7 @@ class IconPainter extends CustomPainter {
   });
 
   final ui.Image? image;
+  static bool safariMode = false;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -24,7 +25,7 @@ class IconPainter extends CustomPainter {
   // static methods
 
   static const double baseIconSize = 1024;
-  static const double svgIconSize = 600;
+  static double svgIconSize = IconPainter.safariMode ? 500 : 600;
 
   static void paintIcon(
     Canvas canvas,
@@ -147,6 +148,13 @@ class IconPainter extends CustomPainter {
       // this gets rid of frame? not sure what is happening
       // canvas.saveLayer(rect, Paint());
       canvas.saveLayer(imageRect.deflate(6), Paint());
+
+      if (IconPainter.safariMode) {
+        // canvas.translate(imageRect.center.dx, imageRect.center.dy);
+        // canvas.rotate(math.pi * 0.75);
+        // canvas.translate(-imageRect.center.dx, -imageRect.center.dy);
+        canvas.translate(20, 0);
+      }
 
       canvas.drawOval(imageRect, gradientPaint);
       canvas.drawImage(image, imageRect.topLeft, blendPaint);
