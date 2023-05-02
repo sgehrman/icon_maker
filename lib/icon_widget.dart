@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/icon_painter.dart';
-import 'package:icon_maker/image_processor.dart';
 
 class IconWidget extends StatefulWidget {
   @override
@@ -28,7 +27,7 @@ class _IconWidgetState extends State<IconWidget> {
       color: Colors.white,
     );
 
-    final img = await ImageProcessor.bytesToImage(iconData);
+    final img = await ImageProcessor.bytesToImage(iconData.bytes);
 
     _svgCompleter.complete(img);
   }

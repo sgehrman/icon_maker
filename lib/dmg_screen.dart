@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/dmg_painter.dart';
-import 'package:icon_maker/image_processor.dart';
 import 'package:image/image.dart' as img;
 
 class DmgScreen extends StatefulWidget {
@@ -26,12 +25,12 @@ class _DmgScreenState extends State<DmgScreen> {
 
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
-      svg: MaterialSvgs.riceBowlSharp,
-      width: 55,
+      svg: FontAwesomeSvgs.solidArrowRight,
+      width: 128,
       color: Colors.white,
     );
 
-    _image = await ImageProcessor.bytesToImage(iconData);
+    _image = await ImageProcessor.bytesToImage(iconData.bytes);
 
     if (mounted) {
       setState(() {});

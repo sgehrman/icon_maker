@@ -6,7 +6,6 @@ import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/icon_painter.dart';
 import 'package:icon_maker/icon_widget.dart';
-import 'package:icon_maker/image_processor.dart';
 import 'package:icon_maker/tray_icon.dart';
 import 'package:image/image.dart' as img;
 
@@ -36,7 +35,7 @@ class _IconScreenState extends State<IconScreen> {
       color: Colors.white,
     );
 
-    _image = await ImageProcessor.bytesToImage(iconData);
+    _image = await ImageProcessor.bytesToImage(iconData.bytes);
 
     if (mounted) {
       setState(() {});

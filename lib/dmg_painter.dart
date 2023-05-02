@@ -26,7 +26,8 @@ class DmgPainter extends CustomPainter {
   // =======================================================
   // static methods
 
-  static const dmgSize = Size(611, 400);
+  // static const dmgSize = Size(611, 400);
+  static const dmgSize = Size(1222, 800);
 
   static void paintDmg({
     required Canvas canvas,
@@ -35,11 +36,8 @@ class DmgPainter extends CustomPainter {
   }) {
     final rect = Offset.zero & size;
 
-    final Rect imageRect = Rect.fromCenter(
-      center: rect.center,
-      width: image.width.toDouble(),
-      height: image.height.toDouble(),
-    );
+    // ===============================================
+    // background
 
     final Paint bgPaint = Paint()
       ..color = Colors.cyan
@@ -48,11 +46,17 @@ class DmgPainter extends CustomPainter {
     canvas.drawRect(rect, bgPaint);
 
     // ===============================================
-    // draw icon
+    // draw arrow
 
-    final Paint blendPaint = Paint();
-    blendPaint.isAntiAlias = true;
+    final Rect imageRect = Rect.fromCenter(
+      center: rect.center,
+      width: image.width.toDouble(),
+      height: image.height.toDouble(),
+    );
 
-    canvas.drawImage(image, imageRect.topLeft, blendPaint);
+    final Paint arrowPaint = Paint();
+    arrowPaint.isAntiAlias = true;
+
+    canvas.drawImage(image, imageRect.topLeft, arrowPaint);
   }
 }
