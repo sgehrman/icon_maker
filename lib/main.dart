@@ -1,6 +1,8 @@
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:icon_maker/dmg_screen.dart';
 import 'package:icon_maker/icon_screen.dart';
+import 'package:icon_maker/svg_screen.dart';
 
 void main() async {
   // needed for tooltips pref
@@ -39,13 +41,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget _body = IconScreen();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _body = IconScreen();
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.account_balance_outlined),
+          ),
+          IconButton(
+            onPressed: () {
+              _body = DmgScreen();
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.access_alarm),
+          ),
+          IconButton(
+            onPressed: () {
+              _body = SvgPreviewScreen();
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.baby_changing_station_sharp),
+          ),
+        ],
       ),
-      body: IconScreen(),
+      body: _body,
     );
   }
 }
