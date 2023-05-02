@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/dmg_painter.dart';
-import 'package:image/image.dart' as img;
 
 class DmgScreen extends StatefulWidget {
   @override
@@ -13,7 +12,8 @@ class DmgScreen extends StatefulWidget {
 }
 
 class _DmgScreenState extends State<DmgScreen> {
-  Uint8List? savedImage;
+  Uint8List? _savedImage2x;
+  Uint8List? _savedImage;
   ui.Image? _image;
 
   @override
@@ -40,8 +40,12 @@ class _DmgScreenState extends State<DmgScreen> {
   Future<void> _saveIcon() async {
     await saveImage();
 
-    savedImage = await File(
-      iconPathForSize(size: DmgPainter.dmgSize),
+    _savedImage2x = await File(
+      iconPathForSize(twoX: true),
+    ).readAsBytes();
+
+    _savedImage = await File(
+      iconPathForSize(twoX: false),
     ).readAsBytes();
 
     if (mounted) {
@@ -61,30 +65,34 @@ class _DmgScreenState extends State<DmgScreen> {
               child: const Text('Save DMG Background'),
             ),
             const SizedBox(height: 20),
-            if (savedImage != null) Image.memory(savedImage!),
+            if (_savedImage2x != null) Image.memory(_savedImage2x!),
+            const SizedBox(height: 20),
+            if (_savedImage != null) Image.memory(_savedImage!),
           ],
         ),
       ),
     );
   }
 
-  Future<Uint8List> _generateIconData() async {
+  Future<Uint8List> _generateIconData({
+    required bool twoX,
+  }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
 
     if (_image != null) {
       DmgPainter.paintDmg(
         canvas: canvas,
-        size: DmgPainter.dmgSize,
         image: _image!,
+        twoX: twoX,
       );
     }
 
     final ui.Picture pict = recorder.endRecording();
 
     final ui.Image resultImage = await pict.toImage(
-      DmgPainter.dmgSize.width.toInt(),
-      DmgPainter.dmgSize.height.toInt(),
+      DmgPainter.dmgSize(twoX: twoX).width.toInt(),
+      DmgPainter.dmgSize(twoX: twoX).height.toInt(),
     );
 
     final ByteData data =
@@ -96,41 +104,30 @@ class _DmgScreenState extends State<DmgScreen> {
   }
 
   Future<void> saveImage() async {
-    final imageData = await _generateIconData();
+    var imageData = await _generateIconData(twoX: false);
 
-    final File file = File(iconPathForSize(size: DmgPainter.dmgSize));
+    File file = File(iconPathForSize(twoX: false));
     file.createSync(recursive: true);
 
     await file.writeAsBytes(
       imageData,
     );
 
-    await saveImageWithSize(imageData: imageData, size: DmgPainter.dmgSize);
+    imageData = await _generateIconData(twoX: true);
+    file = File(iconPathForSize(twoX: true));
+    file.createSync(recursive: true);
+
+    await file.writeAsBytes(
+      imageData,
+    );
   }
 
   String iconPathForSize({
-    required Size size,
+    required bool twoX,
   }) {
-    return './icons/background.png';
-  }
+    const iconBasePath = './icons/background';
+    final numX = twoX ? '@2x' : '@1x';
 
-  Future<void> saveImageWithSize({
-    required Uint8List imageData,
-    required Size size,
-    bool ico = false,
-  }) async {
-    final img.Image image = img.decodeImage(imageData)!;
-
-    try {
-      final Uint8List data = img.encodePng(image, level: 0);
-
-      final File file = File(iconPathForSize(size: size));
-      file.createSync(recursive: true);
-      await file.writeAsBytes(
-        data,
-      );
-    } catch (err) {
-      print(err);
-    }
+    return '$iconBasePath$numX.png';
   }
 }

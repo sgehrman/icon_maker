@@ -4,38 +4,32 @@ import 'package:flutter/material.dart';
 
 // =========================================================
 
-class DmgPainter extends CustomPainter {
-  const DmgPainter({
-    required this.image,
-  });
-
-  final ui.Image image;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    paintDmg(
-      canvas: canvas,
-      size: size,
-      image: image,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => oldDelegate != this;
-
+class DmgPainter {
   // =======================================================
   // static methods
 
-  // static const dmgSize = Size(611, 400);
-  static const dmgSize = Size(1222, 800);
+  static Size dmgSize({
+    required bool twoX,
+  }) {
+    const dmgSize = Size(611, 400);
+
+    if (twoX) {
+      return dmgSize * 2;
+    }
+
+    return dmgSize;
+  }
 
   static void paintDmg({
     required Canvas canvas,
-    required Size size,
     required ui.Image image,
+    required bool twoX,
   }) {
-    final rect = Offset.zero & size;
+    final rect = Offset.zero & dmgSize(twoX: true);
 
+    if (!twoX) {
+      canvas.scale(0.5);
+    }
     // ===============================================
     // background
 
@@ -58,5 +52,14 @@ class DmgPainter extends CustomPainter {
     arrowPaint.isAntiAlias = true;
 
     canvas.drawImage(image, imageRect.topLeft, arrowPaint);
+
+    final paragraphBuilder =
+        ui.ParagraphBuilder(ui.ParagraphStyle(fontSize: 32));
+    paragraphBuilder.addText('Path Finder');
+
+    final paragraph = paragraphBuilder.build();
+    paragraph.layout(ui.ParagraphConstraints(width: dmgSize(twoX: twoX).width));
+
+    canvas.drawParagraph(paragraph, const Offset(12, 12));
   }
 }
