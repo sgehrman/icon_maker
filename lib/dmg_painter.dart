@@ -31,10 +31,23 @@ class DmgPainter {
     // background
 
     final Paint bgPaint = Paint()
-      ..color = Colors.cyan
+      ..color = const ui.Color.fromARGB(255, 9, 57, 92)
       ..isAntiAlias = true;
 
     canvas.drawRect(rect, bgPaint);
+
+    // ===============================================
+    // background gradient
+
+    final centerOvalPaint2 = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..shader = RadialGradient(
+        colors: [Colors.white.withOpacity(0.4), Colors.white.withOpacity(0)],
+        radius: 1,
+      ).createShader(rect);
+
+    canvas.drawRect(rect, centerOvalPaint2);
 
     // ===============================================
     // draw arrow
@@ -51,19 +64,42 @@ class DmgPainter {
     canvas.drawImage(image, imageRect.topLeft, arrowPaint);
 
     // ===============================================
-    // draw Text
+    // draw header text
+
+    const horizOffset = 72.0;
+    const vertOffset = 52.0;
+    final footerVertOffset = rect.size.height - vertOffset - 60;
+    const footerFontSize = 34.0;
+    const headerFontSize = 96.0;
+    const appName = 'DECKR';
 
     final textPainter = TextPainter(
       text: TextSpan(
-        text: 'Path Finder',
+        text: appName,
         style: styleWithGoogleFont(
           ThemePrefs().font.value,
-          const TextStyle(fontSize: 64),
+          const TextStyle(fontSize: headerFontSize),
         ),
       ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: rect.size.width);
 
-    textPainter.paint(canvas, const Offset(22, 22));
+    textPainter.paint(canvas, const Offset(horizOffset, vertOffset));
+
+    // ===============================================
+    // draw footer text
+
+    final footerPainter = TextPainter(
+      text: TextSpan(
+        text: 'Drag $appName to the Applications folder to install',
+        style: styleWithGoogleFont(
+          'Roboto',
+          const TextStyle(fontSize: footerFontSize),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: rect.size.width);
+
+    footerPainter.paint(canvas, Offset(horizOffset, footerVertOffset));
   }
 }

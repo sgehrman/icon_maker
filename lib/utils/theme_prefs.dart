@@ -9,5 +9,5 @@ class ThemePrefs {
 
   static ThemePrefs? _instance;
 
-  ValueNotifier<String> font = ValueNotifier<String>('Roboto');
+  ValueNotifier<String> font = ValueNotifier<String>('Audiowide');
 }

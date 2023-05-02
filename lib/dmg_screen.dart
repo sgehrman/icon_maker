@@ -42,7 +42,7 @@ class _DmgScreenState extends State<DmgScreen> {
     final iconData = await ImageProcessor.svgToPng(
       svg: FontAwesomeSvgs.solidArrowRight,
       width: 128,
-      color: Colors.white,
+      color: Colors.white70,
     );
 
     _image = await ImageProcessor.bytesToImage(iconData.bytes);
