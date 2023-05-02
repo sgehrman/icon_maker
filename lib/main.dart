@@ -1,6 +1,6 @@
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:icon_maker/create_icon_screen.dart';
+import 'package:icon_maker/icon_screen.dart';
 
 void main() async {
   // needed for tooltips pref
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: KreateIconScreen(),
+      body: IconScreen(),
     );
   }
 }
