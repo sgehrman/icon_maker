@@ -5,6 +5,8 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/dmg_painter.dart';
+import 'package:icon_maker/utils/google_font_dialog.dart';
+import 'package:icon_maker/utils/theme_prefs.dart';
 
 class DmgScreen extends StatefulWidget {
   @override
@@ -20,7 +22,20 @@ class _DmgScreenState extends State<DmgScreen> {
   void initState() {
     super.initState();
 
+    ThemePrefs().font.addListener(_listener);
+
     _setup();
+  }
+
+  @override
+  void dispose() {
+    ThemePrefs().font.removeListener(_listener);
+
+    super.dispose();
+  }
+
+  void _listener() {
+    _saveIcon();
   }
 
   Future<void> _setup() async {
@@ -63,6 +78,10 @@ class _DmgScreenState extends State<DmgScreen> {
             ElevatedButton(
               onPressed: _saveIcon,
               child: const Text('Save DMG Background'),
+            ),
+            ElevatedButton(
+              onPressed: () => showFontDialog(context: context),
+              child: const Text('Choose Font'),
             ),
             const SizedBox(height: 20),
             if (_savedImage2x != null) Image.memory(_savedImage2x!),

@@ -1,13 +1,10 @@
 import 'dart:ui' as ui;
 
+import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
-
-// =========================================================
+import 'package:icon_maker/utils/theme_prefs.dart';
 
 class DmgPainter {
-  // =======================================================
-  // static methods
-
   static Size dmgSize({
     required bool twoX,
   }) {
@@ -53,13 +50,20 @@ class DmgPainter {
 
     canvas.drawImage(image, imageRect.topLeft, arrowPaint);
 
-    final paragraphBuilder =
-        ui.ParagraphBuilder(ui.ParagraphStyle(fontSize: 32));
-    paragraphBuilder.addText('Path Finder');
+    // ===============================================
+    // draw Text
 
-    final paragraph = paragraphBuilder.build();
-    paragraph.layout(ui.ParagraphConstraints(width: dmgSize(twoX: twoX).width));
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: 'Path Finder',
+        style: styleWithGoogleFont(
+          ThemePrefs().font.value,
+          const TextStyle(fontSize: 64),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: rect.size.width);
 
-    canvas.drawParagraph(paragraph, const Offset(12, 12));
+    textPainter.paint(canvas, const Offset(22, 22));
   }
 }
