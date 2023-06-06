@@ -16,6 +16,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   late ui.Image _screenshot;
   late ui.Image _computerImage;
   late ui.Image _wallpaper;
+  bool useImac = true;
 
   @override
   void initState() {
@@ -25,8 +26,13 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   }
 
   Future<void> _setup() async {
-    var byteData = await rootBundle.load('assets/macbook.png');
-    // final byteData = await rootBundle.load('assets/imac.png');
+    ByteData byteData;
+
+    if (useImac) {
+      byteData = await rootBundle.load('assets/imac.png');
+    } else {
+      byteData = await rootBundle.load('assets/macbook.png');
+    }
 
     _computerImage =
         await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
@@ -34,7 +40,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     // ----------------------------------------------
 
     byteData = await rootBundle.load('assets/catalina.jpg');
-    // final byteData = await rootBundle.load('assets/sonoma.jpg');
+    // byteData = await rootBundle.load('assets/sonoma.jpg');
 
     _wallpaper =
         await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
@@ -91,6 +97,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       screenshot: _screenshot,
       wallpaper: _wallpaper,
       computerImage: _computerImage,
+      useImac: useImac,
     );
 
     final ui.Picture pict = recorder.endRecording();

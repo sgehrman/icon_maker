@@ -38,6 +38,7 @@ class ScreenshotPainter {
     required ui.Image screenshot,
     required ui.Image wallpaper,
     required ui.Image computerImage,
+    required bool useImac,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
 
@@ -50,12 +51,22 @@ class ScreenshotPainter {
       ..color = const ui.Color.fromARGB(255, 9, 57, 92)
       ..isAntiAlias = true;
 
-    final Rect contentRect = Rect.fromLTRB(
-      rect.left + 211,
-      rect.top + 109,
-      rect.right - 212,
-      rect.bottom - 163,
-    );
+    Rect contentRect;
+    if (useImac) {
+      contentRect = Rect.fromLTRB(
+        rect.left + 179,
+        rect.top + 38,
+        rect.right - 182,
+        rect.bottom - 316,
+      );
+    } else {
+      contentRect = Rect.fromLTRB(
+        rect.left + 211,
+        rect.top + 109,
+        rect.right - 212,
+        rect.bottom - 163,
+      );
+    }
 
     canvas.drawRect(contentRect, bgPaint);
 
