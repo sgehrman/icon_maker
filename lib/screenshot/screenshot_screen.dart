@@ -13,7 +13,9 @@ class ScreenshotScreen extends StatefulWidget {
 
 class _ScreenshotScreenState extends State<ScreenshotScreen> {
   Uint8List? _savedImage;
-  ui.Image? _image;
+  late ui.Image _screenshot;
+  late ui.Image _computerImage;
+  late ui.Image _wallpaper;
 
   @override
   void initState() {
@@ -23,10 +25,26 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   }
 
   Future<void> _setup() async {
-    final byteData = await rootBundle.load('assets/macbook.png');
+    var byteData = await rootBundle.load('assets/macbook.png');
     // final byteData = await rootBundle.load('assets/imac.png');
 
-    _image = await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
+    _computerImage =
+        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
+
+    // ----------------------------------------------
+
+    byteData = await rootBundle.load('assets/catalina.jpg');
+    // final byteData = await rootBundle.load('assets/sonoma.jpg');
+
+    _wallpaper =
+        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
+
+    // ----------------------------------------------
+
+    byteData = await rootBundle.load('assets/ss-one.png');
+
+    _screenshot =
+        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
 
     if (mounted) {
       setState(() {});
@@ -68,12 +86,12 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(recorder);
 
-    if (_image != null) {
-      ScreenshotPainter.paintScreenshot(
-        canvas: canvas,
-        image: _image!,
-      );
-    }
+    ScreenshotPainter.paintScreenshot(
+      canvas: canvas,
+      screenshot: _screenshot,
+      wallpaper: _wallpaper,
+      computerImage: _computerImage,
+    );
 
     final ui.Picture pict = recorder.endRecording();
 

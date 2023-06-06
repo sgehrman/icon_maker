@@ -35,27 +35,46 @@ class ScreenshotPainter {
 
   static void paintScreenshot({
     required Canvas canvas,
-    required ui.Image image,
+    required ui.Image screenshot,
+    required ui.Image wallpaper,
+    required ui.Image computerImage,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
 
     // rect = rect.inflate(50);
 
     // ===============================================
-    // background
+    // wallpaper
 
     final Paint bgPaint = Paint()
       ..color = const ui.Color.fromARGB(255, 9, 57, 92)
       ..isAntiAlias = true;
 
     final Rect contentRect = Rect.fromLTRB(
-      rect.left + 212,
-      rect.top + 110,
-      rect.right - 214,
-      rect.bottom - 164,
+      rect.left + 211,
+      rect.top + 109,
+      rect.right - 212,
+      rect.bottom - 163,
     );
 
     canvas.drawRect(contentRect, bgPaint);
+
+    paintImage(
+      image: wallpaper,
+      canvas: canvas,
+      fit: BoxFit.cover,
+      outputRect: contentRect,
+    );
+
+    // ===============================================
+    // screenshot
+
+    paintImage(
+      image: screenshot,
+      canvas: canvas,
+      fit: BoxFit.scaleDown,
+      outputRect: contentRect,
+    );
 
     // ===============================================
     // draw imac
@@ -67,7 +86,7 @@ class ScreenshotPainter {
     );
 
     paintImage(
-      image: image,
+      image: computerImage,
       canvas: canvas,
       fit: BoxFit.scaleDown,
       outputRect: imageRect,
