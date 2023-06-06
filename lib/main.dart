@@ -2,6 +2,7 @@ import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/dmg_screen.dart';
 import 'package:icon_maker/icon_screen.dart';
+import 'package:icon_maker/screenshot/screenshot_screen.dart';
 import 'package:icon_maker/svg_screen.dart';
 
 void main() async {
@@ -49,6 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
+          IconButton(
+            onPressed: () {
+              _body = ScreenshotScreen();
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.kebab_dining),
+          ),
           IconButton(
             onPressed: () {
               _body = IconScreen();
