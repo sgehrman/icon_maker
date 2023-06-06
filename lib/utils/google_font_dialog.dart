@@ -154,7 +154,7 @@ class _FontItem extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle style = Theme.of(context).textTheme.titleLarge!;
 
-    // TODO(SNG): crashes web/canvaskit
+    // crashes web/canvaskit
     // https://github.com/material-foundation/flutter-packages/issues/399
     if (!Utils.isWeb) {
       style = styleWithGoogleFont(fontObj.name, style);
