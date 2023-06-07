@@ -18,6 +18,7 @@ class ScreenshotPainter {
   }) {
     final paint = Paint();
     paint.isAntiAlias = true;
+    // paint.filterQuality = FilterQuality.medium;
 
     final Size imageSize =
         Size(image.width.toDouble(), image.height.toDouble());
@@ -41,8 +42,6 @@ class ScreenshotPainter {
     required bool useImac,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
-
-    // rect = rect.inflate(50);
 
     // ===============================================
     // wallpaper
