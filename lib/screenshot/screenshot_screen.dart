@@ -16,7 +16,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   late ui.Image _screenshot;
   late ui.Image _computerImage;
   late ui.Image _wallpaper;
-  bool useImac = true;
+  bool useImac = false;
 
   @override
   void initState() {

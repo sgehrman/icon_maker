@@ -47,7 +47,7 @@ class ScreenshotPainter {
     // wallpaper
 
     final Paint bgPaint = Paint()
-      ..color = const ui.Color.fromARGB(255, 9, 57, 92)
+      ..color = const ui.Color.fromARGB(255, 44, 44, 44)
       ..isAntiAlias = true;
 
     Rect contentRect;
