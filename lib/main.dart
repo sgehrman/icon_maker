@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:icon_maker/dmg_screen.dart';
 import 'package:icon_maker/icon_screen.dart';
 import 'package:icon_maker/screenshot/screenshot_screen.dart';
+import 'package:icon_maker/shaders/shader_screen.dart';
 import 'package:icon_maker/svg_screen.dart';
 
 void main() async {
@@ -50,6 +51,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
+          IconButton(
+            onPressed: () {
+              _body = ShaderScreen();
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.bike_scooter),
+          ),
           IconButton(
             onPressed: () {
               _body = ScreenshotScreen();

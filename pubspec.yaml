@@ -13,6 +13,7 @@ dependencies:
   file_selector: ^0.9.2+4
   flutter:
     sdk: flutter
+  flutter_shaders: ^0.1.2
   google_fonts: ^4.0.4
   image: ^4.0.15
   jovial_svg: ^1.1.12
@@ -28,3 +29,15 @@ flutter:
 
   assets:
     - assets/
+
+  shaders:
+    # - shaders/pyramid.glsl
+    # - shaders/warp.glsl
+    # - shaders/triangles.glsl
+    # - shaders/nebula.glsl
+    # - shaders/dmt.glsl
+    # - shaders/boreal.glsl
+    - shaders/coloredCells.glsl
+    # - shaders/hyperboloid.glsl
+    - shaders/starTunnel.glsl
+    # - shaders/starfield.glsl

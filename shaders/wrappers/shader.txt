@@ -1,0 +1,14 @@
+#include<flutter/runtime_effect.glsl>
+
+precision highp float;
+uniform float iTime;
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+uniform sampler2D uTexture;
+out vec4 fragColor;
+
+ 
+
+ 
+void main(void) { mainImage(fragColor, FlutterFragCoord()); }
+ 
