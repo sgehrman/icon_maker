@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:dfc_flutter/dfc_flutter_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:icon_maker/shaders/shader_widget.dart';
+import 'package:icon_maker/shaders/show_qrcode_dialog.dart';
 
 GlobalKey keyOne = GlobalKey();
 GlobalKey keyTwo = GlobalKey();
@@ -52,6 +54,15 @@ class _ShaderScreenState extends State<ShaderScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
+            DFButton(
+              onPressed: () => showQRCodeDialog(
+                context: context,
+                title: 'QRCode',
+                data: 'https://store.deckr.surf',
+              ),
+              label: 'QRCode',
+            ),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () => _captureSocialPng(keyOne),
               child: RepaintBoundary(
