@@ -40,7 +40,7 @@ class ScreenshotPainter {
     required ui.Image wallpaper,
     required ui.Image computerImage,
     required bool useImac,
-    HighlightBox? highlightBox,
+    required HighlightBox highlightBox,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
 
@@ -103,7 +103,7 @@ class ScreenshotPainter {
       outputRect: imageRect,
     );
 
-    if (highlightBox != null) {
+    if (!highlightBox.isZero()) {
       final Rect highlightRect = Rect.fromLTWH(
         contentRect.left + (contentRect.width * highlightBox.x),
         contentRect.top + (contentRect.height * highlightBox.y),
@@ -117,7 +117,10 @@ class ScreenshotPainter {
         ..strokeWidth = 4
         ..isAntiAlias = true;
 
-      canvas.drawRect(highlightRect, highlightPaint);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(highlightRect, const Radius.circular(16)),
+        highlightPaint,
+      );
     }
   }
 }
@@ -132,9 +135,20 @@ class HighlightBox {
     required this.height,
   });
 
+  HighlightBox.zero({
+    this.x = 0,
+    this.y = 0,
+    this.width = 0,
+    this.height = 0,
+  });
+
   // all values 0-1, relative to containing box
   double x;
   double y;
   double width;
   double height;
+
+  bool isZero() {
+    return x == 0 && y == 0 && width == 0 && height == 0;
+  }
 }

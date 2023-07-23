@@ -15,7 +15,8 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   Uint8List? _savedImage;
   late ScreenshotAssets assets;
   final HighlightBox _highlightBox =
-      HighlightBox(x: 0.2, y: 0.2, width: 0.2, height: 0.2);
+      HighlightBox(x: 0, y: 0, width: 0.2, height: 0.2);
+  bool showHightlightBox = true;
 
   @override
   void initState() {
@@ -122,6 +123,14 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use iMac frame'),
             ),
+            CheckboxListTile(
+              value: showHightlightBox,
+              onChanged: (value) {
+                showHightlightBox = value ?? false;
+                _updateIcon();
+              },
+              title: const Text('Use Highlight Box'),
+            ),
             PopupMenuButton<int>(
               itemBuilder: (context) {
                 final result = <PopupMenuItem<int>>[];
@@ -173,7 +182,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       wallpaper: assets.wallpaper,
       computerImage: assets.computerImage,
       useImac: assets.useImac,
-      highlightBox: _highlightBox,
+      highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
     );
 
     final ui.Picture pict = recorder.endRecording();
