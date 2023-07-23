@@ -18,6 +18,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       HighlightBox(x: 0, y: 0, width: 0.2, height: 0.2);
   bool showHightlightBox = false;
   bool useWallpaper = true;
+  bool showSecondScreenshot = false;
 
   @override
   void initState() {
@@ -63,6 +64,98 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  Widget _screenshotPopup() {
+    return PopupMenuButton<int>(
+      itemBuilder: (context) {
+        final result = <PopupMenuItem<int>>[];
+
+        for (int i = 0; i < assets.screenshotCount; i++) {
+          result.add(
+            PopupMenuItem<int>(
+              value: i,
+              child: Text('num: $i'),
+            ),
+          );
+        }
+
+        return result;
+      },
+      onSelected: (value) {
+        assets.screenshotIndex = value;
+
+        _updateIcon();
+      },
+      child: Text(
+        'Screenshot ${assets.screenshotIndex}',
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _screenshot2Popup() {
+    return PopupMenuButton<int>(
+      itemBuilder: (context) {
+        final result = <PopupMenuItem<int>>[];
+
+        for (int i = 0; i < assets.screenshotCount; i++) {
+          result.add(
+            PopupMenuItem<int>(
+              value: i,
+              child: Text('num: $i'),
+            ),
+          );
+        }
+
+        return result;
+      },
+      onSelected: (value) {
+        assets.screenshot2Index = value;
+
+        _updateIcon();
+      },
+      child: Text(
+        'Screenshot #2 ${assets.screenshot2Index}',
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _wallpaperPopup() {
+    return PopupMenuButton<int>(
+      itemBuilder: (context) {
+        final result = <PopupMenuItem<int>>[];
+
+        for (int i = 0; i < assets.wallpaperCount; i++) {
+          result.add(
+            PopupMenuItem<int>(
+              value: i,
+              child: Text('wallpaper: $i'),
+            ),
+          );
+        }
+
+        return result;
+      },
+      onSelected: (value) {
+        assets.wallpaperIndex = value;
+        _updateIcon();
+      },
+      child: Text(
+        'Wallpaper ${assets.wallpaperIndex}',
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   @override
@@ -140,61 +233,17 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use Wallpaper'),
             ),
-            PopupMenuButton<int>(
-              itemBuilder: (context) {
-                final result = <PopupMenuItem<int>>[];
-
-                for (int i = 0; i < assets.screenshotCount; i++) {
-                  result.add(
-                    PopupMenuItem<int>(
-                      value: i,
-                      child: Text('num: $i'),
-                    ),
-                  );
-                }
-
-                return result;
-              },
-              onSelected: (value) {
-                assets.screenshotIndex = value;
-
+            CheckboxListTile(
+              value: showSecondScreenshot,
+              onChanged: (value) {
+                showSecondScreenshot = value ?? false;
                 _updateIcon();
               },
-              child: Text(
-                'Screenshot ${assets.screenshotIndex}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              title: const Text('Show Second Screenshot'),
             ),
-            PopupMenuButton<int>(
-              itemBuilder: (context) {
-                final result = <PopupMenuItem<int>>[];
-
-                for (int i = 0; i < assets.wallpaperCount; i++) {
-                  result.add(
-                    PopupMenuItem<int>(
-                      value: i,
-                      child: Text('wallpaper: $i'),
-                    ),
-                  );
-                }
-
-                return result;
-              },
-              onSelected: (value) {
-                assets.wallpaperIndex = value;
-                _updateIcon();
-              },
-              child: Text(
-                'Wallpaper ${assets.wallpaperIndex}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            _screenshotPopup(),
+            _screenshot2Popup(),
+            _wallpaperPopup(),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveIcon,
@@ -215,6 +264,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     ScreenshotPainter.paintScreenshot(
       canvas: canvas,
       screenshot: assets.screenshot,
+      screenshot2: showSecondScreenshot ? assets.screenshot2 : null,
       wallpaper: useWallpaper ? assets.wallpaper : null,
       wallpaperColor: const ui.Color.fromARGB(255, 46, 86, 186),
       // wallpaperColor: const ui.Color.fromARGB(255, 58, 74, 119),

@@ -10,9 +10,10 @@ class ScreenshotAssets {
   late ui.Image _macBookImage;
   bool useImac = false;
   int screenshotIndex = 0;
+  int screenshot2Index = 0;
   int wallpaperIndex = 0;
 
-  final int numScreenshots = 2;
+  final int numScreenshots = 4;
 
   final void Function() _loaded;
 
@@ -30,6 +31,10 @@ class ScreenshotAssets {
 
   ui.Image get screenshot {
     return _screenshots[screenshotIndex];
+  }
+
+  ui.Image get screenshot2 {
+    return _screenshots[screenshot2Index];
   }
 
   ui.Image get computerImage {

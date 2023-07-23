@@ -37,6 +37,7 @@ class ScreenshotPainter {
   static void paintScreenshot({
     required Canvas canvas,
     required ui.Image screenshot,
+    required ui.Image? screenshot2,
     required ui.Image? wallpaper,
     required ui.Color wallpaperColor,
     required ui.Image computerImage,
@@ -89,6 +90,20 @@ class ScreenshotPainter {
       fit: BoxFit.scaleDown,
       outputRect: contentRect,
     );
+
+    if (screenshot2 != null) {
+      canvas.save();
+      canvas.clipRect(contentRect);
+      canvas.translate(300, 100);
+
+      paintImage(
+        image: screenshot2,
+        canvas: canvas,
+        fit: BoxFit.scaleDown,
+        outputRect: contentRect,
+      );
+      canvas.restore();
+    }
 
     // ===============================================
     // draw imac
