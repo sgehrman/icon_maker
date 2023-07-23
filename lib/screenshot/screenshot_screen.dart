@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:icon_maker/screenshot/screenshot_assets.dart';
 import 'package:icon_maker/screenshot/screenshot_painter.dart';
 
 class ScreenshotScreen extends StatefulWidget {
@@ -13,55 +13,22 @@ class ScreenshotScreen extends StatefulWidget {
 
 class _ScreenshotScreenState extends State<ScreenshotScreen> {
   Uint8List? _savedImage;
-  late ui.Image _screenshot;
-  late ui.Image _computerImage;
-  late ui.Image _wallpaper;
-  bool useImac = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _setup();
-  }
-
-  Future<void> _setup() async {
-    ByteData byteData;
-
-    if (useImac) {
-      byteData = await rootBundle.load('assets/imac.png');
-    } else {
-      byteData = await rootBundle.load('assets/macbook.png');
-    }
-
-    _computerImage =
-        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
-
-    // ----------------------------------------------
-
-    byteData = await rootBundle.load('assets/catalina.jpg');
-    // byteData = await rootBundle.load('assets/sonoma.jpg');
-
-    _wallpaper =
-        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
-
-    // ----------------------------------------------
-
-    byteData = await rootBundle.load('assets/ss-one.png');
-
-    _screenshot =
-        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
-
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  ScreenshotAssets assets = ScreenshotAssets(() => print('loaded'));
 
   Future<void> _saveIcon() async {
-    await saveImage();
+    final int count = assets.screenshotCount;
+
+    for (int i = 0; i < count; i++) {
+      assets.screenshotIndex = i;
+
+      assets.useImac = false;
+      await saveImage(i);
+      assets.useImac = true;
+      await saveImage(i + 100);
+    }
 
     _savedImage = await File(
-      iconPathForSize(),
+      iconPathForSize(0),
     ).readAsBytes();
 
     if (mounted) {
@@ -94,10 +61,10 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
 
     ScreenshotPainter.paintScreenshot(
       canvas: canvas,
-      screenshot: _screenshot,
-      wallpaper: _wallpaper,
-      computerImage: _computerImage,
-      useImac: useImac,
+      screenshot: assets.screenshot,
+      wallpaper: assets.wallpaper,
+      computerImage: assets.computerImage,
+      useImac: assets.useImac,
     );
 
     final ui.Picture pict = recorder.endRecording();
@@ -115,10 +82,10 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-  Future<void> saveImage() async {
+  Future<void> saveImage(int index) async {
     final imageData = await _generateIconData();
 
-    final File file = File(iconPathForSize());
+    final File file = File(iconPathForSize(index));
     file.createSync(recursive: true);
 
     await file.writeAsBytes(
@@ -126,9 +93,9 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     );
   }
 
-  String iconPathForSize() {
+  String iconPathForSize(int index) {
     const iconBasePath = './icons/screenshots/';
 
-    return '$iconBasePath/screenshot.png';
+    return '$iconBasePath/screenshot$index.png';
   }
 }
