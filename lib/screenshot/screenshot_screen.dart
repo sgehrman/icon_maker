@@ -13,15 +13,42 @@ class ScreenshotScreen extends StatefulWidget {
 
 class _ScreenshotScreenState extends State<ScreenshotScreen> {
   Uint8List? _savedImage;
-  ScreenshotAssets assets = ScreenshotAssets(() => print('loaded'));
+  late ScreenshotAssets assets;
+  final HighlightBox _highlightBox =
+      HighlightBox(x: 0.2, y: 0.2, width: 0.2, height: 0.2);
+
+  @override
+  void initState() {
+    super.initState();
+
+    assets = ScreenshotAssets(
+      () => setState(() {}),
+    );
+  }
+
+  Future<void> _updateIcon() async {
+    await saveImage(assets.screenshotIndex, write: false);
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   Future<void> _saveIcon() async {
+    await saveImage(assets.screenshotIndex);
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _saveAllIcons() async {
     final int count = assets.screenshotCount;
 
     for (int i = 0; i < count; i++) {
       assets.screenshotIndex = i;
 
-      assets.useImac = false;
+      assets.useImac = true;
       await saveImage(i);
       assets.useImac = true;
       await saveImage(i + 100);
@@ -44,6 +71,87 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
         child: Column(
           children: <Widget>[
             ElevatedButton(
+              onPressed: _saveAllIcons,
+              child: const Text('Save Screenshot'),
+            ),
+            Slider(
+              value: _highlightBox.x,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _highlightBox.x = value;
+                setState(() {});
+              },
+            ),
+            Slider(
+              value: _highlightBox.y,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _highlightBox.y = value;
+                setState(() {});
+              },
+            ),
+            Slider(
+              value: _highlightBox.width,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _highlightBox.width = value;
+                setState(() {});
+              },
+            ),
+            Slider(
+              value: _highlightBox.height,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _highlightBox.height = value;
+                setState(() {});
+              },
+            ),
+            CheckboxListTile(
+              value: assets.useImac,
+              onChanged: (value) {
+                assets.useImac = value ?? false;
+                _updateIcon();
+              },
+              title: const Text('Use iMac frame'),
+            ),
+            PopupMenuButton<int>(
+              itemBuilder: (context) {
+                final result = <PopupMenuItem<int>>[];
+
+                for (int i = 0; i < assets.screenshotCount; i++) {
+                  result.add(
+                    PopupMenuItem<int>(
+                      value: i,
+                      child: Text('num: $i'),
+                    ),
+                  );
+                }
+
+                return result;
+              },
+              onSelected: (value) {
+                assets.screenshotIndex = value;
+
+                _updateIcon();
+              },
+              child: Text(
+                'Screenshot ${assets.screenshotIndex}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
               onPressed: _saveIcon,
               child: const Text('Save Screenshot'),
             ),
@@ -65,6 +173,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       wallpaper: assets.wallpaper,
       computerImage: assets.computerImage,
       useImac: assets.useImac,
+      highlightBox: _highlightBox,
     );
 
     final ui.Picture pict = recorder.endRecording();
@@ -82,15 +191,17 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-  Future<void> saveImage(int index) async {
-    final imageData = await _generateIconData();
+  Future<void> saveImage(int index, {bool write = true}) async {
+    _savedImage = await _generateIconData();
 
-    final File file = File(iconPathForSize(index));
-    file.createSync(recursive: true);
+    if (write) {
+      final File file = File(iconPathForSize(index));
+      file.createSync(recursive: true);
 
-    await file.writeAsBytes(
-      imageData,
-    );
+      await file.writeAsBytes(
+        _savedImage!,
+      );
+    }
   }
 
   String iconPathForSize(int index) {

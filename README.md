@@ -1,16 +1,11 @@
-# icon_maker
+       name: 'Replaces the browsers "new tab" page.',
 
-A new Flutter project.
+        name: 'Simple and clean bookmark management',
 
-## Getting Started
+        name: 'Personalize the user interface',
 
-This project is a starting point for a Flutter application.
+       name: 'History search',
 
-A few resources to get you started if this is your first Flutter project:
+    View browers bookmarks
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+red box with controls to size and position it?

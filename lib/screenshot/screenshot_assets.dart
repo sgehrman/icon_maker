@@ -59,21 +59,15 @@ class ScreenshotAssets {
 
     // ----------------------------------------------
 
-    byteData = await rootBundle.load('assets/ss-1.png');
+    for (int i = 0; i < 2; i++) {
+      byteData = await rootBundle.load('assets/ss-$i.png');
 
-    _screenshots.add(
-      await ImageProcessor.bytesToImage(
-        byteData.buffer.asUint8List(),
-      ),
-    );
-
-    byteData = await rootBundle.load('assets/ss-2.png');
-
-    _screenshots.add(
-      await ImageProcessor.bytesToImage(
-        byteData.buffer.asUint8List(),
-      ),
-    );
+      _screenshots.add(
+        await ImageProcessor.bytesToImage(
+          byteData.buffer.asUint8List(),
+        ),
+      );
+    }
 
     _loaded();
   }
