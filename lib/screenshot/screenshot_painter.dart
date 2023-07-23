@@ -37,7 +37,8 @@ class ScreenshotPainter {
   static void paintScreenshot({
     required Canvas canvas,
     required ui.Image screenshot,
-    required ui.Image wallpaper,
+    required ui.Image? wallpaper,
+    required ui.Color wallpaperColor,
     required ui.Image computerImage,
     required bool useImac,
     required HighlightBox highlightBox,
@@ -48,7 +49,7 @@ class ScreenshotPainter {
     // wallpaper
 
     final Paint bgPaint = Paint()
-      ..color = const ui.Color.fromARGB(255, 44, 44, 44)
+      ..color = wallpaperColor
       ..isAntiAlias = true;
 
     Rect contentRect;
@@ -70,12 +71,14 @@ class ScreenshotPainter {
 
     canvas.drawRect(contentRect, bgPaint);
 
-    paintImage(
-      image: wallpaper,
-      canvas: canvas,
-      fit: BoxFit.cover,
-      outputRect: contentRect,
-    );
+    if (wallpaper != null) {
+      paintImage(
+        image: wallpaper,
+        canvas: canvas,
+        fit: BoxFit.cover,
+        outputRect: contentRect,
+      );
+    }
 
     // ===============================================
     // screenshot

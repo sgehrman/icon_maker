@@ -16,7 +16,8 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   late ScreenshotAssets assets;
   final HighlightBox _highlightBox =
       HighlightBox(x: 0, y: 0, width: 0.2, height: 0.2);
-  bool showHightlightBox = true;
+  bool showHightlightBox = false;
+  bool useWallpaper = true;
 
   @override
   void initState() {
@@ -131,6 +132,14 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use Highlight Box'),
             ),
+            CheckboxListTile(
+              value: useWallpaper,
+              onChanged: (value) {
+                useWallpaper = value ?? false;
+                _updateIcon();
+              },
+              title: const Text('Use Wallpaper'),
+            ),
             PopupMenuButton<int>(
               itemBuilder: (context) {
                 final result = <PopupMenuItem<int>>[];
@@ -159,6 +168,33 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 ),
               ),
             ),
+            PopupMenuButton<int>(
+              itemBuilder: (context) {
+                final result = <PopupMenuItem<int>>[];
+
+                for (int i = 0; i < assets.wallpaperCount; i++) {
+                  result.add(
+                    PopupMenuItem<int>(
+                      value: i,
+                      child: Text('wallpaper: $i'),
+                    ),
+                  );
+                }
+
+                return result;
+              },
+              onSelected: (value) {
+                assets.wallpaperIndex = value;
+                _updateIcon();
+              },
+              child: Text(
+                'Wallpaper ${assets.wallpaperIndex}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveIcon,
@@ -179,7 +215,9 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     ScreenshotPainter.paintScreenshot(
       canvas: canvas,
       screenshot: assets.screenshot,
-      wallpaper: assets.wallpaper,
+      wallpaper: useWallpaper ? assets.wallpaper : null,
+      wallpaperColor: const ui.Color.fromARGB(255, 46, 86, 186),
+      // wallpaperColor: const ui.Color.fromARGB(255, 58, 74, 119),
       computerImage: assets.computerImage,
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),

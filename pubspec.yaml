@@ -30,6 +30,8 @@ flutter:
 
   assets:
     - assets/
+    - assets/screenshots/
+    - assets/wallpaper/
 
   shaders:
     # - shaders/pyramid.glsl

@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 
 class ScreenshotAssets {
   late final List<ui.Image> _screenshots = [];
+  late final List<ui.Image> _wallpapers = [];
   late ui.Image _iMacImage;
   late ui.Image _macBookImage;
-  late ui.Image _wallpaper;
   bool useImac = false;
   int screenshotIndex = 0;
+  int wallpaperIndex = 0;
+
+  final int numScreenshots = 2;
 
   final void Function() _loaded;
 
@@ -19,6 +22,10 @@ class ScreenshotAssets {
 
   int get screenshotCount {
     return _screenshots.length;
+  }
+
+  int get wallpaperCount {
+    return _wallpapers.length;
   }
 
   ui.Image get screenshot {
@@ -34,7 +41,7 @@ class ScreenshotAssets {
   }
 
   ui.Image get wallpaper {
-    return _wallpaper;
+    return _wallpapers[wallpaperIndex];
   }
 
   Future<void> _setup() async {
@@ -51,16 +58,30 @@ class ScreenshotAssets {
 
     // ----------------------------------------------
 
-    byteData = await rootBundle.load('assets/catalina.jpg');
-    // byteData = await rootBundle.load('assets/sonoma.jpg');
+    final wallpaperFilenames = [
+      'catalina',
+      'sonoma',
+      'colored-clouds',
+      'galaxy',
+      'purple-wave',
+      'wave',
+    ];
 
-    _wallpaper =
-        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
+    for (final name in wallpaperFilenames) {
+      byteData = await rootBundle.load('assets/wallpaper/$name.jpg');
+
+      _wallpapers.add(
+        await ImageProcessor.bytesToImage(
+          byteData.buffer.asUint8List(),
+        ),
+      );
+    }
 
     // ----------------------------------------------
+    // 2517 × 1616
 
-    for (int i = 0; i < 2; i++) {
-      byteData = await rootBundle.load('assets/ss-$i.png');
+    for (int i = 0; i < numScreenshots; i++) {
+      byteData = await rootBundle.load('assets/screenshots/ss-$i.png');
 
       _screenshots.add(
         await ImageProcessor.bytesToImage(
