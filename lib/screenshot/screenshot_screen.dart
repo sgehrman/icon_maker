@@ -78,7 +78,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _saveIcon,
-              child: const Text('Save DMG Background'),
+              child: const Text('Save Screenshot'),
             ),
             const SizedBox(height: 20),
             if (_savedImage != null) Image.memory(_savedImage!),
@@ -127,8 +127,8 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   }
 
   String iconPathForSize() {
-    const iconBasePath = './icons/screenshots';
+    const iconBasePath = './icons/screenshots/';
 
-    return '$iconBasePath.png';
+    return '$iconBasePath/screenshot.png';
   }
 }
