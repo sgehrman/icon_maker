@@ -263,12 +263,12 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
 
     ScreenshotPainter.paintScreenshot(
       canvas: canvas,
-      screenshot: assets.screenshot,
-      screenshot2: showSecondScreenshot ? assets.screenshot2 : null,
-      wallpaper: useWallpaper ? assets.wallpaper : null,
+      screenshot: await assets.screenshot,
+      screenshot2: showSecondScreenshot ? await assets.screenshot2 : null,
+      wallpaper: useWallpaper ? await assets.wallpaper : null,
       wallpaperColor: const ui.Color.fromARGB(255, 46, 86, 186),
       // wallpaperColor: const ui.Color.fromARGB(255, 58, 74, 119),
-      computerImage: assets.computerImage,
+      computerImage: await assets.computerImage,
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
     );

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:dfc_flutter/dfc_flutter.dart';
@@ -12,6 +13,7 @@ class ScreenshotAssets {
   int screenshotIndex = 0;
   int screenshot2Index = 0;
   int wallpaperIndex = 0;
+  final Completer<bool> _completer = Completer<bool>();
 
   final int numScreenshots = 4;
 
@@ -29,15 +31,21 @@ class ScreenshotAssets {
     return _wallpapers.length;
   }
 
-  ui.Image get screenshot {
+  Future<ui.Image> get screenshot async {
+    await _completer.future;
+
     return _screenshots[screenshotIndex];
   }
 
-  ui.Image get screenshot2 {
+  Future<ui.Image> get screenshot2 async {
+    await _completer.future;
+
     return _screenshots[screenshot2Index];
   }
 
-  ui.Image get computerImage {
+  Future<ui.Image> get computerImage async {
+    await _completer.future;
+
     if (useImac) {
       return _iMacImage;
     }
@@ -45,7 +53,9 @@ class ScreenshotAssets {
     return _macBookImage;
   }
 
-  ui.Image get wallpaper {
+  Future<ui.Image> get wallpaper async {
+    await _completer.future;
+
     return _wallpapers[wallpaperIndex];
   }
 
@@ -95,6 +105,7 @@ class ScreenshotAssets {
       );
     }
 
+    _completer.complete(true);
     _loaded();
   }
 }
