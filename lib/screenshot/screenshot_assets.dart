@@ -79,6 +79,7 @@ class ScreenshotAssets {
       'colored-clouds',
       'galaxy',
       'purple-wave',
+      'blue-supernova',
       'wave',
     ];
 

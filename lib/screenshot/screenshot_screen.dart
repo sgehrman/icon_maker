@@ -322,7 +322,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
       screenshot2Position: _screenshot2Position,
-      platformLogoMode: true,
+      platformLogoMode: false,
     );
 
     final ui.Picture pict = recorder.endRecording();

@@ -22,7 +22,7 @@ class ScreenshotPainter {
       color: color,
       fontSize: fontSize,
       icon: FontAwesomeIcons.apple,
-      x: (contentRect.left + contentRect.width * 0.5) - (fontSize / 2),
+      x: (contentRect.left + contentRect.width * 0.53) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.25) - (fontSize / 2),
     );
 
@@ -31,7 +31,7 @@ class ScreenshotPainter {
       color: color,
       fontSize: fontSize,
       icon: FontAwesomeIcons.windows,
-      x: (contentRect.left + contentRect.width * 0.3) - (fontSize / 2),
+      x: (contentRect.left + contentRect.width * 0.25) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
     );
 
@@ -40,7 +40,7 @@ class ScreenshotPainter {
       color: color,
       fontSize: fontSize,
       icon: FontAwesomeIcons.linux,
-      x: (contentRect.left + contentRect.width * 0.7) - (fontSize / 2),
+      x: (contentRect.left + contentRect.width * 0.75) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
     );
   }
@@ -53,8 +53,23 @@ class ScreenshotPainter {
     required IconData icon,
     required double fontSize,
   }) {
-    final TextPainter textPainter =
-        TextPainter(textDirection: TextDirection.ltr);
+    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+
+    textPainter.text = TextSpan(
+      text: String.fromCharCode(icon.codePoint),
+      style: TextStyle(
+        color: Colors.black45,
+        fontSize: fontSize,
+        fontFamily: icon.fontFamily,
+        package:
+            icon.fontPackage, // This line is mandatory for external icon packs
+      ),
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(x + 6, y + 6));
+
+    textPainter = TextPainter(textDirection: TextDirection.ltr);
+
     textPainter.text = TextSpan(
       text: String.fromCharCode(icon.codePoint),
       style: TextStyle(
@@ -150,7 +165,7 @@ class ScreenshotPainter {
         canvas: canvas,
         contentRect: contentRect,
         color: Colors.white,
-        fontSize: 272,
+        fontSize: 340,
       );
     } else {
       paintImage(
