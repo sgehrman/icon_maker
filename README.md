@@ -1,11 +1,12 @@
-       name: 'Replaces the browsers "new tab" page.',
+    'Replaces the browsers "new tab" page.',
 
-        name: 'Simple and clean bookmark management',
+'Simple and clean bookmark management',
+'Personalize the user interface',
 
-        name: 'Personalize the user interface',
+    History search  View browers bookmarks
 
-       name: 'History search',
-
-    View browers bookmarks
-
-red box with controls to size and position it?
+1. linux, mac, windows
+2. .... control on bottom
+3. text on images, fade in?
+4. swipe animation?
+5. sliders for position of image2

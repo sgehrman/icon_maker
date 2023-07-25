@@ -19,6 +19,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   bool showHightlightBox = false;
   bool useWallpaper = true;
   bool showSecondScreenshot = false;
+  Offset _screenshot2Position = const Offset(0.3, 0.1);
 
   @override
   void initState() {
@@ -233,6 +234,9 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use Wallpaper'),
             ),
+            _screenshotPopup(),
+            _screenshot2Popup(),
+            _wallpaperPopup(),
             CheckboxListTile(
               value: showSecondScreenshot,
               onChanged: (value) {
@@ -241,9 +245,26 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Show Second Screenshot'),
             ),
-            _screenshotPopup(),
-            _screenshot2Popup(),
-            _wallpaperPopup(),
+            Slider(
+              value: _screenshot2Position.dx,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _screenshot2Position = Offset(value, _screenshot2Position.dy);
+                setState(() {});
+              },
+            ),
+            Slider(
+              value: _screenshot2Position.dy,
+              onChangeEnd: (value) {
+                _updateIcon();
+              },
+              onChanged: (value) {
+                _screenshot2Position = Offset(_screenshot2Position.dx, value);
+                setState(() {});
+              },
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveIcon,
@@ -271,6 +292,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       computerImage: await assets.computerImage,
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
+      screenshot2Position: _screenshot2Position,
     );
 
     final ui.Picture pict = recorder.endRecording();

@@ -43,6 +43,7 @@ class ScreenshotPainter {
     required ui.Image computerImage,
     required bool useImac,
     required HighlightBox highlightBox,
+    required Offset screenshot2Position,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
 
@@ -94,7 +95,10 @@ class ScreenshotPainter {
     if (screenshot2 != null) {
       canvas.save();
       canvas.clipRect(contentRect);
-      canvas.translate(300, 100);
+      canvas.translate(
+        contentRect.width * screenshot2Position.dx,
+        contentRect.height * screenshot2Position.dy,
+      );
 
       paintImage(
         image: screenshot2,
