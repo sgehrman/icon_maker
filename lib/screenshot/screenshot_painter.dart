@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const double _imageWidth = 1624;
 const double _imageHeight = 1024;
@@ -8,6 +9,64 @@ const double _imageHeight = 1024;
 class ScreenshotPainter {
   static Size dmgSize() {
     return const Size(_imageWidth, _imageHeight);
+  }
+
+  static void drawIcons({
+    required Canvas canvas,
+    required Rect contentRect,
+    required Color color,
+    required double fontSize,
+  }) {
+    drawIcon(
+      canvas: canvas,
+      color: color,
+      fontSize: fontSize,
+      icon: FontAwesomeIcons.apple,
+      x: (contentRect.left + contentRect.width * 0.5) - (fontSize / 2),
+      y: (contentRect.top + contentRect.height * 0.25) - (fontSize / 2),
+    );
+
+    drawIcon(
+      canvas: canvas,
+      color: color,
+      fontSize: fontSize,
+      icon: FontAwesomeIcons.windows,
+      x: (contentRect.left + contentRect.width * 0.3) - (fontSize / 2),
+      y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
+    );
+
+    drawIcon(
+      canvas: canvas,
+      color: color,
+      fontSize: fontSize,
+      icon: FontAwesomeIcons.linux,
+      x: (contentRect.left + contentRect.width * 0.7) - (fontSize / 2),
+      y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
+    );
+  }
+
+  static void drawIcon({
+    required Canvas canvas,
+    required Color color,
+    required double x,
+    required double y,
+    required IconData icon,
+    required double fontSize,
+  }) {
+    final TextPainter textPainter =
+        TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+      text: String.fromCharCode(icon.codePoint),
+      style: TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontFamily: icon.fontFamily,
+        package:
+            icon.fontPackage, // This line is mandatory for external icon packs
+      ),
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(x, y));
   }
 
   static void paintImage({
@@ -44,6 +103,7 @@ class ScreenshotPainter {
     required bool useImac,
     required HighlightBox highlightBox,
     required Offset screenshot2Position,
+    required bool platformLogoMode,
   }) {
     final rect = Offset.zero & const Size(_imageWidth, _imageHeight);
 
@@ -85,28 +145,37 @@ class ScreenshotPainter {
     // ===============================================
     // screenshot
 
-    paintImage(
-      image: screenshot,
-      canvas: canvas,
-      fit: BoxFit.scaleDown,
-      outputRect: contentRect,
-    );
-
-    if (screenshot2 != null) {
-      canvas.save();
-      canvas.clipRect(contentRect);
-      canvas.translate(
-        contentRect.width * screenshot2Position.dx,
-        contentRect.height * screenshot2Position.dy,
+    if (platformLogoMode) {
+      drawIcons(
+        canvas: canvas,
+        contentRect: contentRect,
+        color: Colors.white,
+        fontSize: 272,
       );
-
+    } else {
       paintImage(
-        image: screenshot2,
+        image: screenshot,
         canvas: canvas,
         fit: BoxFit.scaleDown,
         outputRect: contentRect,
       );
-      canvas.restore();
+
+      if (screenshot2 != null) {
+        canvas.save();
+        canvas.clipRect(contentRect);
+        canvas.translate(
+          contentRect.width * screenshot2Position.dx,
+          contentRect.height * screenshot2Position.dy,
+        );
+
+        paintImage(
+          image: screenshot2,
+          canvas: canvas,
+          fit: BoxFit.scaleDown,
+          outputRect: contentRect,
+        );
+        canvas.restore();
+      }
     }
 
     // ===============================================

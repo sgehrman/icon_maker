@@ -168,48 +168,9 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _saveAllIcons,
-              child: const Text('Save Screenshot'),
+              child: const Text('Save All'),
             ),
-            Slider(
-              value: _highlightBox.x,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _highlightBox.x = value;
-                setState(() {});
-              },
-            ),
-            Slider(
-              value: _highlightBox.y,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _highlightBox.y = value;
-                setState(() {});
-              },
-            ),
-            Slider(
-              value: _highlightBox.width,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _highlightBox.width = value;
-                setState(() {});
-              },
-            ),
-            Slider(
-              value: _highlightBox.height,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _highlightBox.height = value;
-                setState(() {});
-              },
-            ),
+            const SizedBox(height: 20),
             CheckboxListTile(
               value: assets.useImac,
               onChanged: (value) {
@@ -218,6 +179,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use iMac frame'),
             ),
+            _screenshotPopup(),
             CheckboxListTile(
               value: showHightlightBox,
               onChanged: (value) {
@@ -225,6 +187,62 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 _updateIcon();
               },
               title: const Text('Use Highlight Box'),
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: Slider(
+                    value: _highlightBox.x,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _highlightBox.x = value;
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: Slider(
+                    value: _highlightBox.y,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _highlightBox.y = value;
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Flexible(
+                  child: Slider(
+                    value: _highlightBox.width,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _highlightBox.width = value;
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: Slider(
+                    value: _highlightBox.height,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _highlightBox.height = value;
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
             ),
             CheckboxListTile(
               value: useWallpaper,
@@ -234,8 +252,6 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use Wallpaper'),
             ),
-            _screenshotPopup(),
-            _screenshot2Popup(),
             _wallpaperPopup(),
             CheckboxListTile(
               value: showSecondScreenshot,
@@ -245,25 +261,36 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Show Second Screenshot'),
             ),
-            Slider(
-              value: _screenshot2Position.dx,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _screenshot2Position = Offset(value, _screenshot2Position.dy);
-                setState(() {});
-              },
-            ),
-            Slider(
-              value: _screenshot2Position.dy,
-              onChangeEnd: (value) {
-                _updateIcon();
-              },
-              onChanged: (value) {
-                _screenshot2Position = Offset(_screenshot2Position.dx, value);
-                setState(() {});
-              },
+            _screenshot2Popup(),
+            Row(
+              children: [
+                Flexible(
+                  child: Slider(
+                    value: _screenshot2Position.dx,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _screenshot2Position =
+                          Offset(value, _screenshot2Position.dy);
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: Slider(
+                    value: _screenshot2Position.dy,
+                    onChangeEnd: (value) {
+                      _updateIcon();
+                    },
+                    onChanged: (value) {
+                      _screenshot2Position =
+                          Offset(_screenshot2Position.dx, value);
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -287,12 +314,15 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       screenshot: await assets.screenshot,
       screenshot2: showSecondScreenshot ? await assets.screenshot2 : null,
       wallpaper: useWallpaper ? await assets.wallpaper : null,
-      wallpaperColor: const ui.Color.fromARGB(255, 46, 86, 186),
+      wallpaperColor: const ui.Color.fromARGB(255, 44, 44, 44),
+      // wallpaperColor: const ui.Color.fromARGB(255, 46, 86, 186),
       // wallpaperColor: const ui.Color.fromARGB(255, 58, 74, 119),
+
       computerImage: await assets.computerImage,
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
       screenshot2Position: _screenshot2Position,
+      platformLogoMode: true,
     );
 
     final ui.Picture pict = recorder.endRecording();
