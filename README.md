@@ -9,4 +9,3 @@
 2. .... control on bottom
 3. text on images, fade in?
 4. swipe animation?
-5. sliders for position of image2
