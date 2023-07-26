@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        sliderTheme: const SliderThemeData(
+          showValueIndicator: ShowValueIndicator.always,
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

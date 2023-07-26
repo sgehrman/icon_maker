@@ -192,6 +192,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               children: [
                 Flexible(
                   child: Slider(
+                    label: _highlightBox.x.toString(),
                     value: _highlightBox.x,
                     onChangeEnd: (value) {
                       _updateIcon();
@@ -204,6 +205,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 ),
                 Flexible(
                   child: Slider(
+                    label: _highlightBox.y.toString(),
                     value: _highlightBox.y,
                     onChangeEnd: (value) {
                       _updateIcon();
@@ -220,6 +222,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               children: [
                 Flexible(
                   child: Slider(
+                    label: _highlightBox.width.toString(),
                     value: _highlightBox.width,
                     onChangeEnd: (value) {
                       _updateIcon();
@@ -232,6 +235,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 ),
                 Flexible(
                   child: Slider(
+                    label: _highlightBox.height.toString(),
                     value: _highlightBox.height,
                     onChangeEnd: (value) {
                       _updateIcon();
@@ -266,6 +270,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               children: [
                 Flexible(
                   child: Slider(
+                    label: _screenshot2Position.dx.toString(),
                     value: _screenshot2Position.dx,
                     onChangeEnd: (value) {
                       _updateIcon();
@@ -279,6 +284,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 ),
                 Flexible(
                   child: Slider(
+                    label: _screenshot2Position.dy.toString(),
                     value: _screenshot2Position.dy,
                     onChangeEnd: (value) {
                       _updateIcon();
