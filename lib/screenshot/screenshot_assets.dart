@@ -15,7 +15,7 @@ class ScreenshotAssets {
   int wallpaperIndex = 0;
   final Completer<bool> _completer = Completer<bool>();
 
-  final int numScreenshots = 4;
+  final int numScreenshots = 6;
 
   final void Function() _loaded;
 
