@@ -117,6 +117,7 @@ class ScreenshotPainter {
     required ui.Image computerImage,
     required bool useImac,
     required HighlightBox highlightBox,
+    required Offset screenshot1Position,
     required Offset screenshot2Position,
     required bool platformLogoMode,
   }) {
@@ -168,12 +169,22 @@ class ScreenshotPainter {
         fontSize: 340,
       );
     } else {
+      canvas.save();
+      canvas.clipRect(contentRect);
+      canvas.translate(
+        contentRect.width * screenshot1Position.dx,
+        contentRect.height * screenshot1Position.dy,
+      );
+
       paintImage(
         image: screenshot,
         canvas: canvas,
         fit: BoxFit.scaleDown,
         outputRect: contentRect,
       );
+      canvas.restore();
+
+      // ----------------------------------------------------
 
       if (screenshot2 != null) {
         canvas.save();

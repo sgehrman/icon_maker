@@ -19,6 +19,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   bool showHightlightBox = false;
   bool useWallpaper = true;
   bool showSecondScreenshot = false;
+  Offset _screenshot1Position = Offset.zero;
   Offset _screenshot2Position = const Offset(0.3, 0.1);
 
   @override
@@ -166,9 +167,26 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: _saveAllIcons,
-              child: const Text('Save All'),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: _saveAllIcons,
+                  child: const Text('Save All'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _screenshot1Position = Offset.zero;
+                    _screenshot2Position = const Offset(0.3, 0.1);
+
+                    _saveIcon();
+
+                    if (mounted) {
+                      setState(() {});
+                    }
+                  },
+                  child: const Text('Reset'),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             CheckboxListTile(
@@ -179,84 +197,144 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               },
               title: const Text('Use iMac frame'),
             ),
-            _screenshotPopup(),
-            CheckboxListTile(
-              value: showHightlightBox,
-              onChanged: (value) {
-                showHightlightBox = value ?? false;
-                _updateIcon();
-              },
-              title: const Text('Use Highlight Box'),
+            Container(
+              color: Colors.black.withOpacity(0.06),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  _screenshotPopup(),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Slider(
+                          min: -1,
+                          label: _screenshot1Position.dx.toString(),
+                          value: _screenshot1Position.dx,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _screenshot1Position =
+                                Offset(value, _screenshot1Position.dy);
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Flexible(
+                        child: Slider(
+                          min: -1,
+                          label: _screenshot1Position.dy.toString(),
+                          value: _screenshot1Position.dy,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _screenshot1Position =
+                                Offset(_screenshot1Position.dx, value);
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: Slider(
-                    label: _highlightBox.x.toString(),
-                    value: _highlightBox.x,
-                    onChangeEnd: (value) {
+            const SizedBox(height: 20),
+            Container(
+              color: Colors.black.withOpacity(0.06),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  CheckboxListTile(
+                    value: showHightlightBox,
+                    onChanged: (value) {
+                      showHightlightBox = value ?? false;
                       _updateIcon();
                     },
-                    onChanged: (value) {
-                      _highlightBox.x = value;
-                      setState(() {});
-                    },
+                    title: const Text('Use Highlight Box'),
                   ),
-                ),
-                Flexible(
-                  child: Slider(
-                    label: _highlightBox.y.toString(),
-                    value: _highlightBox.y,
-                    onChangeEnd: (value) {
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Slider(
+                          label: _highlightBox.x.toString(),
+                          value: _highlightBox.x,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _highlightBox.x = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Flexible(
+                        child: Slider(
+                          label: _highlightBox.y.toString(),
+                          value: _highlightBox.y,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _highlightBox.y = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Slider(
+                          label: _highlightBox.width.toString(),
+                          value: _highlightBox.width,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _highlightBox.width = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      Flexible(
+                        child: Slider(
+                          label: _highlightBox.height.toString(),
+                          value: _highlightBox.height,
+                          onChangeEnd: (value) {
+                            _updateIcon();
+                          },
+                          onChanged: (value) {
+                            _highlightBox.height = value;
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              color: Colors.black.withOpacity(0.06),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  CheckboxListTile(
+                    value: useWallpaper,
+                    onChanged: (value) {
+                      useWallpaper = value ?? false;
                       _updateIcon();
                     },
-                    onChanged: (value) {
-                      _highlightBox.y = value;
-                      setState(() {});
-                    },
+                    title: const Text('Use Wallpaper'),
                   ),
-                ),
-              ],
+                  _wallpaperPopup(),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Flexible(
-                  child: Slider(
-                    label: _highlightBox.width.toString(),
-                    value: _highlightBox.width,
-                    onChangeEnd: (value) {
-                      _updateIcon();
-                    },
-                    onChanged: (value) {
-                      _highlightBox.width = value;
-                      setState(() {});
-                    },
-                  ),
-                ),
-                Flexible(
-                  child: Slider(
-                    label: _highlightBox.height.toString(),
-                    value: _highlightBox.height,
-                    onChangeEnd: (value) {
-                      _updateIcon();
-                    },
-                    onChanged: (value) {
-                      _highlightBox.height = value;
-                      setState(() {});
-                    },
-                  ),
-                ),
-              ],
-            ),
-            CheckboxListTile(
-              value: useWallpaper,
-              onChanged: (value) {
-                useWallpaper = value ?? false;
-                _updateIcon();
-              },
-              title: const Text('Use Wallpaper'),
-            ),
-            _wallpaperPopup(),
             CheckboxListTile(
               value: showSecondScreenshot,
               onChanged: (value) {
@@ -270,6 +348,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               children: [
                 Flexible(
                   child: Slider(
+                    min: -1,
                     label: _screenshot2Position.dx.toString(),
                     value: _screenshot2Position.dx,
                     onChangeEnd: (value) {
@@ -284,6 +363,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
                 ),
                 Flexible(
                   child: Slider(
+                    min: -1,
                     label: _screenshot2Position.dy.toString(),
                     value: _screenshot2Position.dy,
                     onChangeEnd: (value) {
@@ -327,6 +407,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       computerImage: await assets.computerImage,
       useImac: assets.useImac,
       highlightBox: showHightlightBox ? _highlightBox : HighlightBox.zero(),
+      screenshot1Position: _screenshot1Position,
       screenshot2Position: _screenshot2Position,
       platformLogoMode: false,
     );

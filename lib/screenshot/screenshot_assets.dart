@@ -5,6 +5,10 @@ import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/services.dart';
 
 class ScreenshotAssets {
+  ScreenshotAssets(this._loaded) {
+    _setup();
+  }
+
   late final List<ui.Image> _screenshots = [];
   late final List<ui.Image> _wallpapers = [];
   late ui.Image _iMacImage;
@@ -18,10 +22,6 @@ class ScreenshotAssets {
   final int numScreenshots = 6;
 
   final void Function() _loaded;
-
-  ScreenshotAssets(this._loaded) {
-    _setup();
-  }
 
   int get screenshotCount {
     return _screenshots.length;
