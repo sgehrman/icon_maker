@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
+      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.1"
+    version: "1.17.2"
   convert:
     dependency: transitive
     description:
@@ -222,7 +222,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ab3d6eee4bb09c3a3ab4465662f56eaae66c4bf5
+      resolved-ref: c2e61e0bb67d2f0aada140583ba51b3078506a73
       url: "https://github.com/sgehrman/dfc_dart"
     source: git
     version: "1.0.1"
@@ -231,7 +231,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9a4c98bf4dedc6f3db4b7074985137bee995a8cb"
+      resolved-ref: cf51185a0b171a6a22d0d20fe468273e05b2b019
       url: "https://github.com/sgehrman/dfc_flutter"
     source: git
     version: "1.0.1"
@@ -240,7 +240,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "44e4685f8052681c07391da4f809173daddf3b21"
+      resolved-ref: cbd372d00d8a51344a65da738ed647579c06533a
       url: "https://github.com/sgehrman/dfc_lints"
     source: git
     version: "1.0.6"
@@ -602,10 +602,10 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: d92141dc6fe1dad30722f9aa826c7fbc896d021d792f80678280601aff8cf724
+      sha256: "9528f2f296073ff54cb9fee677df673ace1218163c3bc7628093e7eed5203d41"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.5.0"
   meta:
     dependency: transitive
     description:
@@ -762,10 +762,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: "4a451831508d7d6ca779f7ac6e212b4023dd5a7d08a27a63da33756410e32b76"
+      sha256: "57c07bf82207aee366dfaa3867b3164e4f03a238a461a11b0e8a3a510d51203d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -1099,6 +1099,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  web:
+    dependency: transitive
+    description:
+      name: web
+      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4-beta"
   win32:
     dependency: transitive
     description:
@@ -1140,5 +1148,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.1.0-185.0.dev <4.0.0"
   flutter: ">=3.10.0"
