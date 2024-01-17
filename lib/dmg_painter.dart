@@ -76,7 +76,7 @@ class DmgPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: appName,
-        style: styleWithGoogleFont(
+        style: FontUtils.styleWithGoogleFont(
           ThemePrefs().font.value,
           const TextStyle(fontSize: headerFontSize),
         ),
@@ -92,7 +92,7 @@ class DmgPainter {
     final footerPainter = TextPainter(
       text: TextSpan(
         text: 'Drag $appName to the Applications folder to install',
-        style: styleWithGoogleFont(
+        style: FontUtils.styleWithGoogleFont(
           'Roboto',
           const TextStyle(fontSize: footerFontSize),
         ),

@@ -50,7 +50,7 @@ class _GoogleFontsWidgetState extends State<_GoogleFontsWidget> {
   final _fontList = _buildFontList();
 
   static List<_FontObj> _buildFontList() {
-    final List<String> gFonts = googleFonts();
+    final List<String> gFonts = FontUtils.googleFonts();
     final List<String?> favs = Preferences().getFavoriteGoogleFonts();
 
     final result = <_FontObj>[];
@@ -157,7 +157,7 @@ class _FontItem extends StatelessWidget {
     // crashes web/canvaskit
     // https://github.com/material-foundation/flutter-packages/issues/399
     if (!Utils.isWeb) {
-      style = styleWithGoogleFont(fontObj.name, style);
+      style = FontUtils.styleWithGoogleFont(fontObj.name, style);
     }
 
     if (fontObj.name == currentFont) {
