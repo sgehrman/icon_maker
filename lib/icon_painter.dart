@@ -35,7 +35,7 @@ class IconPainter extends CustomPainter {
   static const double baseIconSize = 1024;
   static double svgIconSize = IconPainter.safariMode ? 500 : 600;
 
-  static void paintIcon({
+  static void paintIconX({
     required Canvas canvas,
     required Size size,
     required ui.Image? image,
@@ -177,6 +177,66 @@ class IconPainter extends CustomPainter {
         // canvas.translate(-imageRect.center.dx, -imageRect.center.dy);
         canvas.translate(20, 0);
       }
+
+      canvas.drawOval(imageRect, gradientPaint);
+      canvas.drawImage(image, imageRect.topLeft, blendPaint);
+
+      canvas.restore();
+    }
+  }
+
+  static void paintIcon({
+    required Canvas canvas,
+    required Size size,
+    required ui.Image? image,
+    required bool insetImage,
+  }) {
+    const realSize = Size(baseIconSize, baseIconSize);
+    final scale = size.width / realSize.width;
+
+    canvas.scale(scale);
+
+    final rect = Offset.zero & realSize;
+
+    final Rect imageRect = Rect.fromCenter(
+      center: rect.center,
+      width: svgIconSize,
+      height: svgIconSize,
+    );
+
+    // ===============================================
+
+    // insetImage set to false for small images, don't waste space
+    final mainRect = rect.deflate(insetImage ? 30 : 0);
+    final ovalRect = mainRect.deflate(80);
+
+    // const startColor = Color.fromRGBO(45, 45, 45, 1);
+    // const endColor = Color.fromRGBO(59, 112, 158, 1);
+
+    // =================================================
+    // cemter oval
+
+    final centerOvalPaint = Paint()
+      ..isAntiAlias = true
+      ..style = PaintingStyle.fill
+      ..color = Colors.black;
+
+    canvas.drawOval(ovalRect, centerOvalPaint);
+
+    // ===============================================
+    // draw icon in center
+
+    final Paint blendPaint = Paint();
+    blendPaint.blendMode = ui.BlendMode.dstIn;
+    blendPaint.isAntiAlias = true;
+
+    final Paint gradientPaint = Paint()..color = Colors.white;
+
+    gradientPaint.isAntiAlias = true;
+
+    if (image != null) {
+      // this gets rid of frame? not sure what is happening
+      canvas.saveLayer(rect, Paint());
 
       canvas.drawOval(imageRect, gradientPaint);
       canvas.drawImage(image, imageRect.topLeft, blendPaint);
