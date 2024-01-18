@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: const Color.fromRGBO(215, 225, 255, 1),
         sliderTheme: const SliderThemeData(
           showValueIndicator: ShowValueIndicator.always,
         ),

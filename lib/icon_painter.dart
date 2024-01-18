@@ -33,15 +33,40 @@ class IconPainter extends CustomPainter {
   // static methods
 
   static const double baseIconSize = 1024;
+
   static double svgIconSize = IconPainter.safariMode ? 500 : 600;
 
-  static void paintIconX({
+  static void paintIcon({
     required Canvas canvas,
     required Size size,
     required ui.Image? image,
     required bool insetImage,
   }) {
-    const realSize = Size(baseIconSize, baseIconSize);
+    paintIconNormal(
+      canvas: canvas,
+      size: size,
+      image: image,
+      insetImage: insetImage,
+      iconSize: baseIconSize,
+    );
+
+    // paintIconSafariExt(
+    //   canvas: canvas,
+    //   size: size,
+    //   image: image,
+    //   insetImage: insetImage,
+    //   iconSize: 950,
+    // );
+  }
+
+  static void paintIconNormal({
+    required Canvas canvas,
+    required Size size,
+    required ui.Image? image,
+    required bool insetImage,
+    required double iconSize,
+  }) {
+    final realSize = Size(iconSize, iconSize);
     final scale = size.width / realSize.width;
 
     canvas.scale(scale);
@@ -185,13 +210,14 @@ class IconPainter extends CustomPainter {
     }
   }
 
-  static void paintIcon({
+  static void paintIconSafariExt({
     required Canvas canvas,
     required Size size,
     required ui.Image? image,
     required bool insetImage,
+    required double iconSize,
   }) {
-    const realSize = Size(baseIconSize, baseIconSize);
+    final realSize = Size(iconSize, iconSize);
     final scale = size.width / realSize.width;
 
     canvas.scale(scale);
@@ -204,17 +230,7 @@ class IconPainter extends CustomPainter {
       height: svgIconSize,
     );
 
-    // ===============================================
-
-    // insetImage set to false for small images, don't waste space
-    final mainRect = rect.deflate(insetImage ? 30 : 0);
-    final ovalRect = mainRect.deflate(80);
-
-    // const startColor = Color.fromRGBO(45, 45, 45, 1);
-    // const endColor = Color.fromRGBO(59, 112, 158, 1);
-
-    // =================================================
-    // cemter oval
+    final ovalRect = rect.deflate(4);
 
     final centerOvalPaint = Paint()
       ..isAntiAlias = true
@@ -223,11 +239,8 @@ class IconPainter extends CustomPainter {
 
     canvas.drawOval(ovalRect, centerOvalPaint);
 
-    // ===============================================
-    // draw icon in center
-
     final Paint blendPaint = Paint();
-    blendPaint.blendMode = ui.BlendMode.dstIn;
+    blendPaint.blendMode = ui.BlendMode.srcIn;
     blendPaint.isAntiAlias = true;
 
     final Paint gradientPaint = Paint()..color = Colors.white;
