@@ -217,43 +217,43 @@ class IconPainter extends CustomPainter {
     required bool insetImage,
     required double iconSize,
   }) {
-    final realSize = Size(iconSize, iconSize);
-    final scale = size.width / realSize.width;
-
-    canvas.scale(scale);
-
-    final rect = Offset.zero & realSize;
-
-    final Rect imageRect = Rect.fromCenter(
-      center: rect.center,
-      width: svgIconSize,
-      height: svgIconSize,
-    );
-
-    final ovalRect = rect.deflate(4);
-
-    final centerOvalPaint = Paint()
-      ..isAntiAlias = true
-      ..style = PaintingStyle.fill
-      ..color = Colors.black;
-
-    canvas.drawOval(ovalRect, centerOvalPaint);
-
-    final Paint blendPaint = Paint();
-    blendPaint.blendMode = ui.BlendMode.srcIn;
-    blendPaint.isAntiAlias = true;
-
-    final Paint gradientPaint = Paint()..color = Colors.white;
-
-    gradientPaint.isAntiAlias = true;
-
     if (image != null) {
-      // this gets rid of frame? not sure what is happening
-      canvas.saveLayer(rect, Paint());
+      final realSize = Size(iconSize, iconSize);
+      final scale = size.width / realSize.width;
 
-      canvas.drawOval(imageRect, gradientPaint);
-      canvas.drawImage(image, imageRect.topLeft, blendPaint);
+      canvas.scale(scale);
 
+      final rect = Offset.zero & realSize;
+
+      final Rect imageRect = Rect.fromCenter(
+        center: rect.center,
+        width: svgIconSize,
+        height: svgIconSize,
+      );
+
+      final ovalRect = rect.deflate(4);
+
+      final centerOvalPaint = Paint()
+        ..isAntiAlias = true
+        ..style = PaintingStyle.fill
+        ..color = const Color.fromRGBO(55, 55, 55, 1);
+
+      canvas.drawOval(ovalRect, centerOvalPaint);
+
+      final Paint blendPaint = Paint();
+      blendPaint.blendMode = ui.BlendMode.xor;
+      blendPaint.isAntiAlias = true;
+
+      final Paint gradientPaint = Paint()..color = Colors.black;
+
+      gradientPaint.isAntiAlias = true;
+
+      final clipPath = Path()..addOval(imageRect);
+
+      canvas.saveLayer(rect, blendPaint);
+      canvas.clipPath(clipPath);
+
+      canvas.drawImage(image, imageRect.topLeft, Paint());
       canvas.restore();
     }
   }
