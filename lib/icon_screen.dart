@@ -131,6 +131,7 @@ class _IconScreenState extends State<IconScreen> {
         (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
 
     resultImage.dispose();
+    pict.dispose();
 
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
