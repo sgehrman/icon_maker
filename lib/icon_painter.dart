@@ -93,8 +93,8 @@ class IconPainter extends CustomPainter {
       const Radius.circular(250),
     );
 
-    final backStartColor = startColor.mix(endColor, 0.7)!;
-    final backEndColor = startColor.mix(endColor, 0.2)!;
+    final backStartColor = startColor.mix(endColor, 0.7);
+    final backEndColor = startColor.mix(endColor, 0.2);
 
     final backPaint = Paint()
       ..isAntiAlias = true
@@ -117,8 +117,8 @@ class IconPainter extends CustomPainter {
     // =================================================
     // stroke around background
 
-    final borderStartColor = startColor.mix(endColor, 0.4)!;
-    final borderEndColor = startColor.mix(endColor, 0.1)!;
+    final borderStartColor = startColor.mix(endColor, 0.4);
+    final borderEndColor = startColor.mix(endColor, 0.1);
 
     final borderPaint = Paint()
       ..isAntiAlias = true

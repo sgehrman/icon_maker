@@ -68,7 +68,7 @@ class TrayIcon {
         break;
     }
 
-    return Colors.white.mix(_fillColor, whiteMix) ?? Colors.white;
+    return Colors.white.mix(_fillColor, whiteMix);
   }
 
   double get _iconInset {

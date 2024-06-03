@@ -27,7 +27,11 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     super.initState();
 
     assets = ScreenshotAssets(
-      () => setState(() {}),
+      () {
+        if (mounted) {
+          setState(() {});
+        }
+      },
     );
   }
 
