@@ -14,19 +14,18 @@ dependencies:
   file_selector: ^1.0.3
   flutter:
     sdk: flutter
-  flutter_shaders: ^0.1.2
-  font_awesome_flutter: ^10.7.0
+  flutter_shaders: ^0.1.3
+  font_awesome_flutter: ^10.8.0
   google_fonts: ^6.2.1
-  image: ^4.2.0
-  jovial_svg: ^1.1.21
+  image: ^4.5.2
+  jovial_svg: ^1.1.24
 
 dev_dependencies:
   # must include this with dfc_lints. see https://github.com/dart-code-checker/dart-code-metrics/issues/254
   dart_code_metrics:
-    git: https://github.com/avatarnguyen/dart-code-metrics.git
+    git: https://github.com/rei-codes/dart-code-metrics
   dfc_lints:
     git: https://github.com/sgehrman/dfc_lints
-  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
