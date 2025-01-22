@@ -152,7 +152,7 @@ class IconPainter extends CustomPainter {
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
       ..shader = RadialGradient(
-        colors: [Colors.white, Colors.white.withOpacity(0)],
+        colors: [Colors.white, Colors.white.withValues(alpha: 0)],
         radius: 0.4,
       ).createShader(mainRect);
 

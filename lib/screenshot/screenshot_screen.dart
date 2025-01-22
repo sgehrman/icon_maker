@@ -202,7 +202,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
               title: const Text('Use iMac frame'),
             ),
             Container(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -246,7 +246,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
             ),
             const SizedBox(height: 20),
             Container(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -323,7 +323,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
             ),
             const SizedBox(height: 20),
             Container(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [

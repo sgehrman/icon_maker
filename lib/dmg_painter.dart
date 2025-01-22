@@ -43,7 +43,10 @@ class DmgPainter {
       ..isAntiAlias = true
       ..style = PaintingStyle.fill
       ..shader = RadialGradient(
-        colors: [Colors.white.withOpacity(0.4), Colors.white.withOpacity(0)],
+        colors: [
+          Colors.white.withValues(alpha: 0.4),
+          Colors.white.withValues(alpha: 0),
+        ],
         radius: 1,
       ).createShader(rect);
 
