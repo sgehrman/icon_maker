@@ -41,7 +41,7 @@ class _DmgScreenState extends State<DmgScreen> {
   Future<void> _setup() async {
     final iconData = await ImageProcessor.svgToPng(
       svg: FontAwesomeSvgs.solidArrowRight,
-      width: 128,
+      size: 128,
       color: Colors.white70,
     );
 

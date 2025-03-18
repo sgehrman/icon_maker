@@ -31,7 +31,7 @@ class _IconScreenState extends State<IconScreen> {
       svg: IconPainter.safariMode
           ? MaterialSvgs.extensionBaseline
           : MaterialSvgs.surfingBaseline,
-      width: IconPainter.svgIconSize.toInt(),
+      size: IconPainter.svgIconSize,
       color: Colors.white,
     );
 
