@@ -293,14 +293,18 @@ class _IconScreenState extends State<IconScreen> {
   // ============================================================
 
   Future<void> savePathFinderIcon() async {
-    final imageData = await _generatePathFinderIconData();
-    await saveImageWithSize(imageData: imageData, size: 512);
+    savedImage = await _generatePathFinderIconData();
+    await saveImageWithSize(imageData: savedImage!, size: 512);
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<Uint8List> _generatePathFinderIconData() async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
-    const size = IconPainter.baseIconSize;
+    const double size = 1024;
 
     final imageRect = Offset.zero & const Size(size, size);
 
