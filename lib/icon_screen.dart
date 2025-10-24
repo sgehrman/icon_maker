@@ -294,7 +294,7 @@ class _IconScreenState extends State<IconScreen> {
 
   Future<void> savePathFinderIcon() async {
     savedImage = await _generatePathFinderIconData();
-    await saveImageWithSize(imageData: savedImage!, size: 512);
+    await saveImageWithSize(imageData: savedImage!, size: 1024);
 
     if (mounted) {
       setState(() {});
@@ -312,21 +312,40 @@ class _IconScreenState extends State<IconScreen> {
 
     canvas.drawImage(image, imageRect.topLeft, Paint());
 
-    const horizOffset = 72.0;
-    const vertOffset = 52.0;
+    // --------------------------------------------------------
+    // filled rect
+    const hInset = 172.0;
+    const vInset = 60.0;
+    const rectHeight = 200.0;
+
+    const filledRect = Rect.fromLTWH(
+        hInset, size - rectHeight, size - (hInset * 2), rectHeight - vInset);
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(filledRect, const Radius.circular(222)),
+      Paint()..color = Colors.black87,
+    );
+
+    // --------------------------------------------------------
+    // text
 
     final textPainter = TextPainter(
       text: TextSpan(
-        text: '1 Year',
+        text: 'Five Year',
         style: FontUtils.styleWithGoogleFont(
+          // 'Alatsi',
           ThemePrefs().font.value,
-          const TextStyle(fontSize: 22),
+          const TextStyle(fontSize: 82),
         ),
       ),
       textDirection: TextDirection.ltr,
-    )..layout(maxWidth: 333);
+    )..layout(maxWidth: size);
 
-    textPainter.paint(canvas, const Offset(horizOffset, vertOffset));
+    final horizOffset = size / 2 - textPainter.width / 2;
+    final vertOffset =
+        filledRect.top + (filledRect.height / 2) - (textPainter.height / 2);
+
+    textPainter.paint(canvas, Offset(horizOffset, vertOffset));
 
     final pict = recorder.endRecording();
 
