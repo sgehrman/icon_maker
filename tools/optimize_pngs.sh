@@ -4,4 +4,4 @@
 echo
 echo '### optimize pngs'
 
-optipng -o7 icons/screenshots/*.png
+optipng -o7 icons/*.png

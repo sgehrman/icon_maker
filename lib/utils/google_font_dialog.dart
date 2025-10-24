@@ -156,9 +156,9 @@ class _FontItem extends StatelessWidget {
 
     // crashes web/canvaskit
     // https://github.com/material-foundation/flutter-packages/issues/399
-    if (!Utils.isWeb) {
-      style = FontUtils.styleWithGoogleFont(fontObj.name, style);
-    }
+    // if (!Utils.isWeb) {
+    //   style = FontUtils.styleWithGoogleFont(fontObj.name, style);
+    // }
 
     if (fontObj.name == currentFont) {
       style = style.copyWith(color: Theme.of(context).primaryColor);
