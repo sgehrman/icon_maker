@@ -8,7 +8,6 @@ import 'package:icon_maker/icon_painter.dart';
 import 'package:icon_maker/icon_widget.dart';
 import 'package:icon_maker/screenshot/screenshot_assets.dart';
 import 'package:icon_maker/tray_icon.dart';
-import 'package:icon_maker/utils/theme_prefs.dart';
 import 'package:image/image.dart' as img;
 
 class IconScreen extends StatefulWidget {
@@ -315,11 +314,11 @@ class _IconScreenState extends State<IconScreen> {
     // --------------------------------------------------------
     // filled rect
     const hInset = 172.0;
-    const vInset = 60.0;
-    const rectHeight = 200.0;
+    const vInset = 100.0;
+    const rectHeight = 160.0;
 
     const filledRect = Rect.fromLTWH(
-        hInset, size - rectHeight, size - (hInset * 2), rectHeight - vInset);
+        hInset, size - rectHeight - vInset, size - (hInset * 2), rectHeight);
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(filledRect, const Radius.circular(222)),
@@ -331,12 +330,18 @@ class _IconScreenState extends State<IconScreen> {
 
     final textPainter = TextPainter(
       text: TextSpan(
-        text: 'Five Year',
+        text: 'Five Year'.toUpperCase(),
         style: FontUtils.styleWithGoogleFont(
           // 'Alatsi',
-          ThemePrefs().font.value,
-          const TextStyle(fontSize: 82),
+          // ThemePrefs().font.value,
+          'Roboto',
+          const TextStyle(
+            fontSize: 82,
+            //  fontWeight: FontWeight.bold,
+          ),
         ),
+
+        // style: TextStyle(fontSize: 82, fontWeight: FontWeight.bold),
       ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size);
