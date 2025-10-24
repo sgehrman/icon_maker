@@ -52,9 +52,9 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   }
 
   Future<void> _saveAllIcons() async {
-    final int count = assets.screenshotCount;
+    final count = assets.screenshotCount;
 
-    for (int i = 0; i < count; i++) {
+    for (var i = 0; i < count; i++) {
       assets.screenshotIndex = i;
 
       assets.useImac = true;
@@ -77,7 +77,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       itemBuilder: (context) {
         final result = <PopupMenuItem<int>>[];
 
-        for (int i = 0; i < assets.screenshotCount; i++) {
+        for (var i = 0; i < assets.screenshotCount; i++) {
           result.add(
             PopupMenuItem<int>(
               value: i,
@@ -108,7 +108,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       itemBuilder: (context) {
         final result = <PopupMenuItem<int>>[];
 
-        for (int i = 0; i < assets.screenshotCount; i++) {
+        for (var i = 0; i < assets.screenshotCount; i++) {
           result.add(
             PopupMenuItem<int>(
               value: i,
@@ -139,7 +139,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       itemBuilder: (context) {
         final result = <PopupMenuItem<int>>[];
 
-        for (int i = 0; i < assets.wallpaperCount; i++) {
+        for (var i = 0; i < assets.wallpaperCount; i++) {
           result.add(
             PopupMenuItem<int>(
               value: i,
@@ -396,8 +396,8 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
   }
 
   Future<Uint8List> _generateIconData() async {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
 
     ScreenshotPainter.paintScreenshot(
       canvas: canvas,
@@ -416,14 +416,14 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
       platformLogoMode: false,
     );
 
-    final ui.Picture pict = recorder.endRecording();
+    final pict = recorder.endRecording();
 
-    final ui.Image resultImage = await pict.toImage(
+    final resultImage = await pict.toImage(
       ScreenshotPainter.dmgSize().width.toInt(),
       ScreenshotPainter.dmgSize().height.toInt(),
     );
 
-    final ByteData data =
+    final data =
         (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
 
     resultImage.dispose();
@@ -435,7 +435,7 @@ class _ScreenshotScreenState extends State<ScreenshotScreen> {
     _savedImage = await _generateIconData();
 
     if (write) {
-      final File file = File(iconPathForSize(index));
+      final file = File(iconPathForSize(index));
       file.createSync(recursive: true);
 
       await file.writeAsBytes(

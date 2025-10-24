@@ -53,7 +53,7 @@ class ScreenshotPainter {
     required IconData icon,
     required double fontSize,
   }) {
-    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+    var textPainter = TextPainter(textDirection: TextDirection.ltr);
 
     textPainter.text = TextSpan(
       text: String.fromCharCode(icon.codePoint),
@@ -94,15 +94,14 @@ class ScreenshotPainter {
     paint.isAntiAlias = true;
     // paint.filterQuality = FilterQuality.medium;
 
-    final Size imageSize =
-        Size(image.width.toDouble(), image.height.toDouble());
+    final imageSize = Size(image.width.toDouble(), image.height.toDouble());
 
-    final FittedSizes sizes = applyBoxFit(fit, imageSize, outputRect.size);
+    final sizes = applyBoxFit(fit, imageSize, outputRect.size);
 
-    final Rect inputSubrect =
+    final inputSubrect =
         Alignment.center.inscribe(sizes.source, Offset.zero & imageSize);
 
-    final Rect outputSubrect =
+    final outputSubrect =
         Alignment.center.inscribe(sizes.destination, outputRect);
 
     canvas.drawImageRect(image, inputSubrect, outputSubrect, paint);
@@ -126,7 +125,7 @@ class ScreenshotPainter {
     // ===============================================
     // wallpaper
 
-    final Paint bgPaint = Paint()
+    final bgPaint = Paint()
       ..color = wallpaperColor
       ..isAntiAlias = true;
 
@@ -207,7 +206,7 @@ class ScreenshotPainter {
     // ===============================================
     // draw imac
 
-    final Rect imageRect = Rect.fromCenter(
+    final imageRect = Rect.fromCenter(
       center: rect.center,
       width: _imageWidth - 40,
       height: _imageHeight,
@@ -221,14 +220,14 @@ class ScreenshotPainter {
     );
 
     if (!highlightBox.isZero()) {
-      final Rect highlightRect = Rect.fromLTWH(
+      final highlightRect = Rect.fromLTWH(
         contentRect.left + (contentRect.width * highlightBox.x),
         contentRect.top + (contentRect.height * highlightBox.y),
         contentRect.width * highlightBox.width,
         contentRect.height * highlightBox.height,
       );
 
-      final Paint highlightPaint = Paint()
+      final highlightPaint = Paint()
         ..color = const ui.Color.fromARGB(255, 255, 0, 0)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 4

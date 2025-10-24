@@ -60,7 +60,7 @@ class ScreenshotAssets {
   }
 
   Future<void> _setup() async {
-    ByteData byteData = await rootBundle.load('assets/imac.png');
+    var byteData = await rootBundle.load('assets/imac.png');
 
     _iMacImage =
         await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
@@ -96,7 +96,7 @@ class ScreenshotAssets {
     // ----------------------------------------------
     // 2517 × 1616
 
-    for (int i = 0; i < numScreenshots; i++) {
+    for (var i = 0; i < numScreenshots; i++) {
       byteData = await rootBundle.load('assets/screenshots/ss-$i.png');
 
       _screenshots.add(

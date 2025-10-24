@@ -75,7 +75,7 @@ class _QRCodeDialogWidget extends StatelessWidget {
 
                 final imageData = img.encodePng(image, level: 9);
 
-                final File file = File(iconPathForSize());
+                final file = File(iconPathForSize());
                 file.createSync(recursive: true);
 
                 await file.writeAsBytes(

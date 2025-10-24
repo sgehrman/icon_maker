@@ -73,7 +73,7 @@ class IconPainter extends CustomPainter {
 
     final rect = Offset.zero & realSize;
 
-    final Rect imageRect = Rect.fromCenter(
+    final imageRect = Rect.fromCenter(
       center: rect.center,
       width: svgIconSize,
       height: svgIconSize,
@@ -179,11 +179,11 @@ class IconPainter extends CustomPainter {
     // ===============================================
     // draw icon in center
 
-    final Paint blendPaint = Paint();
+    final blendPaint = Paint();
     blendPaint.blendMode = ui.BlendMode.dstIn;
     blendPaint.isAntiAlias = true;
 
-    final Paint gradientPaint = Paint();
+    final gradientPaint = Paint();
     gradientPaint.shader = LinearGradient(
       colors: [backStartColor, backEndColor],
       begin: Alignment.topLeft,
@@ -225,7 +225,7 @@ class IconPainter extends CustomPainter {
 
       final rect = Offset.zero & realSize;
 
-      final Rect imageRect = Rect.fromCenter(
+      final imageRect = Rect.fromCenter(
         center: rect.center,
         width: svgIconSize,
         height: svgIconSize,
@@ -240,11 +240,11 @@ class IconPainter extends CustomPainter {
 
       canvas.drawOval(ovalRect, centerOvalPaint);
 
-      final Paint blendPaint = Paint();
+      final blendPaint = Paint();
       blendPaint.blendMode = ui.BlendMode.xor;
       blendPaint.isAntiAlias = true;
 
-      final Paint gradientPaint = Paint()..color = Colors.black;
+      final gradientPaint = Paint()..color = Colors.black;
 
       gradientPaint.isAntiAlias = true;
 

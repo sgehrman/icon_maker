@@ -60,14 +60,14 @@ class _IconScreenState extends State<IconScreen> {
 
     for (final mode in TrayIconMode.values) {
       for (final size in TrayIconSize.values) {
-        final TrayIcon tmp = TrayIcon(size, mode);
+        final tmp = TrayIcon(size, mode);
         await tmp.saveFavIcon();
       }
     }
 
     // ----------------------------------------------------------------
 
-    final TrayIcon trIcn = TrayIcon(TrayIconSize.large, TrayIconMode.cyan);
+    final trIcn = TrayIcon(TrayIconSize.large, TrayIconMode.cyan);
     _favIcon = await File(
       trIcn.faviconPath,
     ).readAsBytes();
@@ -112,8 +112,8 @@ class _IconScreenState extends State<IconScreen> {
   Future<Uint8List> _generateIconData({
     required bool insetImage,
   }) async {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
     const size = IconPainter.baseIconSize;
 
     IconPainter.paintIcon(
@@ -123,11 +123,11 @@ class _IconScreenState extends State<IconScreen> {
       insetImage: insetImage,
     );
 
-    final ui.Picture pict = recorder.endRecording();
+    final pict = recorder.endRecording();
 
-    final ui.Image resultImage = await pict.toImage(size.toInt(), size.toInt());
+    final resultImage = await pict.toImage(size.toInt(), size.toInt());
 
-    final ByteData data =
+    final data =
         (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
 
     resultImage.dispose();
@@ -140,8 +140,7 @@ class _IconScreenState extends State<IconScreen> {
     final imageData = await _generateIconData(insetImage: true);
     final imageDataNoInset = await _generateIconData(insetImage: false);
 
-    final File file =
-        File(iconPathForSize(size: IconPainter.baseIconSize.toInt()));
+    final file = File(iconPathForSize(size: IconPainter.baseIconSize.toInt()));
     file.createSync(recursive: true);
 
     await file.writeAsBytes(
@@ -179,7 +178,7 @@ class _IconScreenState extends State<IconScreen> {
     required int size,
     bool ico = false,
   }) async {
-    img.Image image = img.decodeImage(imageData)!;
+    var image = img.decodeImage(imageData)!;
 
     // shrink image
     image = img.copyResize(
@@ -197,7 +196,7 @@ class _IconScreenState extends State<IconScreen> {
         data = img.encodePng(image, level: 0);
       }
 
-      final File file = File(iconPathForSize(size: size, ico: ico));
+      final file = File(iconPathForSize(size: size, ico: ico));
       file.createSync(recursive: true);
       await file.writeAsBytes(
         data,
@@ -253,7 +252,7 @@ class _IconScreenState extends State<IconScreen> {
     required int size,
     required bool twoX,
   }) async {
-    img.Image image = img.decodeImage(imageData)!;
+    var image = img.decodeImage(imageData)!;
 
     // shrink image
     image = img.copyResize(
@@ -266,7 +265,7 @@ class _IconScreenState extends State<IconScreen> {
       // level: 0 is no compression
       final data = img.encodePng(image, level: 0);
 
-      final File file = File(iconPathForSafari(size: size, twoX: twoX));
+      final file = File(iconPathForSafari(size: size, twoX: twoX));
       file.createSync(recursive: true);
       await file.writeAsBytes(
         data,

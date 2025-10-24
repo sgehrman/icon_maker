@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:dfc_flutter/dfc_flutter_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:icon_maker/shaders/shader_widget.dart';
 import 'package:icon_maker/shaders/show_qrcode_dialog.dart';
 
@@ -30,15 +29,14 @@ class _ShaderScreenState extends State<ShaderScreen> {
 
   Future<void> _captureSocialPng(GlobalKey key) {
     return Future.delayed(const Duration(milliseconds: 20), () async {
-      final RenderRepaintBoundary? boundary =
+      final boundary =
           key.currentContext!.findRenderObject() as RenderRepaintBoundary?;
 
-      final ui.Image image = await boundary!.toImage();
-      final ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      final Uint8List imageData = byteData!.buffer.asUint8List();
+      final image = await boundary!.toImage();
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final imageData = byteData!.buffer.asUint8List();
 
-      final File file = File(iconPathForSize());
+      final file = File(iconPathForSize());
       file.createSync(recursive: true);
 
       await file.writeAsBytes(

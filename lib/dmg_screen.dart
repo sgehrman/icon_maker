@@ -96,8 +96,8 @@ class _DmgScreenState extends State<DmgScreen> {
   Future<Uint8List> _generateIconData({
     required bool twoX,
   }) async {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
 
     if (_image != null) {
       DmgPainter.paintDmg(
@@ -107,14 +107,14 @@ class _DmgScreenState extends State<DmgScreen> {
       );
     }
 
-    final ui.Picture pict = recorder.endRecording();
+    final pict = recorder.endRecording();
 
-    final ui.Image resultImage = await pict.toImage(
+    final resultImage = await pict.toImage(
       DmgPainter.dmgSize(twoX: twoX).width.toInt(),
       DmgPainter.dmgSize(twoX: twoX).height.toInt(),
     );
 
-    final ByteData data =
+    final data =
         (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
 
     resultImage.dispose();
@@ -125,7 +125,7 @@ class _DmgScreenState extends State<DmgScreen> {
   Future<void> saveImage() async {
     var imageData = await _generateIconData(twoX: false);
 
-    File file = File(iconPathForSize(twoX: false));
+    var file = File(iconPathForSize(twoX: false));
     file.createSync(recursive: true);
 
     await file.writeAsBytes(

@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_shaders/flutter_shaders.dart';
@@ -65,14 +63,14 @@ class _ShaderWidgetState extends State<ShaderWidget>
             (context, shader, child) {
               return AnimatedSampler(
                 child: child!,
-                (ui.Image image, Size size, Canvas canvas) {
+                (image, size, canvas) {
                   shader
                     ..setFloat(0, time)
                     ..setFloat(1, size.width)
                     ..setFloat(2, size.height)
                     ..setImageSampler(0, image);
 
-                  int index = 3;
+                  var index = 3;
                   for (final p in widget.params) {
                     shader.setFloat(index++, p);
                   }

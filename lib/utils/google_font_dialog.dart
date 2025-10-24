@@ -50,15 +50,15 @@ class _GoogleFontsWidgetState extends State<_GoogleFontsWidget> {
   final _fontList = _buildFontList();
 
   static List<_FontObj> _buildFontList() {
-    final List<String> gFonts = FontUtils.googleFonts();
+    final gFonts = FontUtils.googleFonts();
     final List<String?> favs = Preferences().getFavoriteGoogleFonts();
 
     final result = <_FontObj>[];
 
     for (final f in gFonts) {
-      final String fixed = f.replaceFirst('TextTheme', '');
+      final fixed = f.replaceFirst('TextTheme', '');
 
-      final bool fav = favs.contains(f);
+      final fav = favs.contains(f);
 
       result.add(
         _FontObj(
@@ -78,7 +78,7 @@ class _GoogleFontsWidgetState extends State<_GoogleFontsWidget> {
       fontObj.fav = !fontObj.fav;
 
       // save in prefs
-      final List<String> favs = Preferences().getFavoriteGoogleFonts();
+      final favs = Preferences().getFavoriteGoogleFonts();
 
       if (fontObj.fav) {
         favs.add(fontObj.name);
@@ -131,7 +131,7 @@ class _GoogleFontsWidgetState extends State<_GoogleFontsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final Color? normalColor = Theme.of(context).textTheme.bodyMedium!.color;
+    final normalColor = Theme.of(context).textTheme.bodyMedium!.color;
 
     return _contents(normalColor, ThemePrefs().font.value);
   }
@@ -152,7 +152,7 @@ class _FontItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.titleLarge!;
+    var style = Theme.of(context).textTheme.titleLarge!;
 
     // crashes web/canvaskit
     // https://github.com/material-foundation/flutter-packages/issues/399

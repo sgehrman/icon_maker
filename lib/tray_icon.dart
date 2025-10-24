@@ -51,7 +51,7 @@ class TrayIcon {
   }
 
   Color get _startColor {
-    double whiteMix = 0.5;
+    var whiteMix = 0.5;
 
     switch (colorMode) {
       case TrayIconMode.cyan:
@@ -83,7 +83,7 @@ class TrayIcon {
   }
 
   String get _nameTags {
-    String result = '';
+    var result = '';
 
     switch (colorMode) {
       case TrayIconMode.cyan:
@@ -136,8 +136,8 @@ class TrayIcon {
   }
 
   Future<Uint8List> _generateFavicon(double size) async {
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
 
     final rect = Offset.zero & Size(size, size);
     final ovalRect = rect.deflate(_iconInset);
@@ -153,11 +153,11 @@ class TrayIcon {
     ).createShader(ovalRect);
     canvas.drawOval(ovalRect, ovalPaint);
 
-    final ui.Picture pict = recorder.endRecording();
+    final pict = recorder.endRecording();
 
-    final ui.Image resultImage = await pict.toImage(size.toInt(), size.toInt());
+    final resultImage = await pict.toImage(size.toInt(), size.toInt());
 
-    final ByteData data =
+    final data =
         (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
 
     resultImage.dispose();
@@ -168,7 +168,7 @@ class TrayIcon {
   Future<void> saveFavIcon() async {
     var imageData = await _generateFavicon(32);
 
-    File file = File(faviconPath);
+    var file = File(faviconPath);
     file.createSync(recursive: true);
 
     await file.writeAsBytes(
@@ -176,7 +176,7 @@ class TrayIcon {
     );
 
     // write out ico
-    final img.Image image = img.decodeImage(imageData)!;
+    final image = img.decodeImage(imageData)!;
 
     imageData = img.encodeIco(image);
 

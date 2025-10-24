@@ -30,7 +30,7 @@ class DmgPainter {
     // ===============================================
     // background
 
-    final Paint bgPaint = Paint()
+    final bgPaint = Paint()
       ..color = const ui.Color.fromARGB(255, 9, 57, 92)
       ..isAntiAlias = true;
 
@@ -55,13 +55,13 @@ class DmgPainter {
     // ===============================================
     // draw arrow
 
-    final Rect imageRect = Rect.fromCenter(
+    final imageRect = Rect.fromCenter(
       center: rect.center,
       width: image.width.toDouble(),
       height: image.height.toDouble(),
     );
 
-    final Paint arrowPaint = Paint();
+    final arrowPaint = Paint();
     arrowPaint.isAntiAlias = true;
 
     canvas.drawImage(image, imageRect.topLeft, arrowPaint);

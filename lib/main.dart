@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color.fromRGBO(215, 225, 255, 1),
         sliderTheme: const SliderThemeData(
-          showValueIndicator: ShowValueIndicator.always,
+          showValueIndicator: ShowValueIndicator.alwaysVisible,
         ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
