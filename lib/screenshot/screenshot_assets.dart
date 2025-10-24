@@ -12,6 +12,7 @@ class ScreenshotAssets {
   late final List<ui.Image> _screenshots = [];
   late final List<ui.Image> _wallpapers = [];
   late ui.Image _iMacImage;
+  late ui.Image _pathFinderImage;
   late ui.Image _macBookImage;
   bool useImac = false;
   int screenshotIndex = 0;
@@ -53,6 +54,12 @@ class ScreenshotAssets {
     return _macBookImage;
   }
 
+  Future<ui.Image> get pathFinderImage async {
+    await _completer.future;
+
+    return _pathFinderImage;
+  }
+
   Future<ui.Image> get wallpaper async {
     await _completer.future;
 
@@ -60,7 +67,12 @@ class ScreenshotAssets {
   }
 
   Future<void> _setup() async {
-    var byteData = await rootBundle.load('assets/imac.png');
+    var byteData = await rootBundle.load('assets/pf_icon.png');
+
+    _pathFinderImage =
+        await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());
+
+    byteData = await rootBundle.load('assets/imac.png');
 
     _iMacImage =
         await ImageProcessor.bytesToImage(byteData.buffer.asUint8List());

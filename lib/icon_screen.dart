@@ -6,7 +6,9 @@ import 'package:dfc_flutter/dfc_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:icon_maker/icon_painter.dart';
 import 'package:icon_maker/icon_widget.dart';
+import 'package:icon_maker/screenshot/screenshot_assets.dart';
 import 'package:icon_maker/tray_icon.dart';
+import 'package:icon_maker/utils/theme_prefs.dart';
 import 'package:image/image.dart' as img;
 
 class IconScreen extends StatefulWidget {
@@ -18,12 +20,21 @@ class _IconScreenState extends State<IconScreen> {
   Uint8List? savedImage;
   ui.Image? _image;
   Uint8List? _favIcon;
+  late ScreenshotAssets assets;
 
   @override
   void initState() {
     super.initState();
 
     _setup();
+
+    assets = ScreenshotAssets(
+      () {
+        if (mounted) {
+          setState(() {});
+        }
+      },
+    );
   }
 
   Future<void> _setup() async {
@@ -97,6 +108,10 @@ class _IconScreenState extends State<IconScreen> {
             ElevatedButton(
               onPressed: saveSafariIconImages,
               child: const Text('Save Safari Icons'),
+            ),
+            ElevatedButton(
+              onPressed: savePathFinderIcon,
+              child: const Text('Path Finder Icon'),
             ),
             const SizedBox(height: 20),
             IconWidget(),
@@ -273,5 +288,52 @@ class _IconScreenState extends State<IconScreen> {
     } catch (err) {
       print(err);
     }
+  }
+
+  // ============================================================
+
+  Future<void> savePathFinderIcon() async {
+    final imageData = await _generatePathFinderIconData();
+    await saveImageWithSize(imageData: imageData, size: 512);
+  }
+
+  Future<Uint8List> _generatePathFinderIconData() async {
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    const size = IconPainter.baseIconSize;
+
+    final imageRect = Offset.zero & const Size(size, size);
+
+    final image = await assets.pathFinderImage;
+
+    canvas.drawImage(image, imageRect.topLeft, Paint());
+
+    const horizOffset = 72.0;
+    const vertOffset = 52.0;
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: '1 Year',
+        style: FontUtils.styleWithGoogleFont(
+          ThemePrefs().font.value,
+          const TextStyle(fontSize: 22),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: 333);
+
+    textPainter.paint(canvas, const Offset(horizOffset, vertOffset));
+
+    final pict = recorder.endRecording();
+
+    final resultImage = await pict.toImage(size.toInt(), size.toInt());
+
+    final data =
+        (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
+
+    resultImage.dispose();
+    pict.dispose();
+
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 }
