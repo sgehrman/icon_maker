@@ -315,7 +315,7 @@ class _IconScreenState extends State<IconScreen> {
     // --------------------------------------------------------
     // filled rect
     const hInset = 168.0;
-    const vInset = 100.0;
+    const vInset = 160.0;
     const rectHeight = 180.0;
     const fontSize = 120.0;
 
@@ -324,7 +324,7 @@ class _IconScreenState extends State<IconScreen> {
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(filledRect, const Radius.circular(42)),
-      Paint()..color = Colors.black87,
+      Paint()..color = Colors.black.withValues(alpha: 0.7),
     );
 
     // --------------------------------------------------------
