@@ -314,9 +314,10 @@ class _IconScreenState extends State<IconScreen> {
 
     // --------------------------------------------------------
     // filled rect
-    const hInset = 172.0;
+    const hInset = 168.0;
     const vInset = 100.0;
-    const rectHeight = 160.0;
+    const rectHeight = 180.0;
+    const fontSize = 120.0;
 
     const filledRect = Rect.fromLTWH(
         hInset, size - rectHeight - vInset, size - (hInset * 2), rectHeight);
@@ -337,7 +338,7 @@ class _IconScreenState extends State<IconScreen> {
           ThemePrefs().font.value,
           // 'Roboto',
           const TextStyle(
-            fontSize: 82,
+            fontSize: fontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
