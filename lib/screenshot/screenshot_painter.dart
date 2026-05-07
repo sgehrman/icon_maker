@@ -21,7 +21,7 @@ class ScreenshotPainter {
       canvas: canvas,
       color: color,
       fontSize: fontSize,
-      icon: FontAwesomeIcons.apple,
+      icon: FontAwesomeIcons.apple.data,
       x: (contentRect.left + contentRect.width * 0.53) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.25) - (fontSize / 2),
     );
@@ -30,7 +30,7 @@ class ScreenshotPainter {
       canvas: canvas,
       color: color,
       fontSize: fontSize,
-      icon: FontAwesomeIcons.windows,
+      icon: FontAwesomeIcons.windows.data,
       x: (contentRect.left + contentRect.width * 0.25) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
     );
@@ -39,7 +39,7 @@ class ScreenshotPainter {
       canvas: canvas,
       color: color,
       fontSize: fontSize,
-      icon: FontAwesomeIcons.linux,
+      icon: FontAwesomeIcons.linux.data,
       x: (contentRect.left + contentRect.width * 0.75) - (fontSize / 2),
       y: (contentRect.top + contentRect.height * 0.7) - (fontSize / 2),
     );

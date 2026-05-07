@@ -55,14 +55,18 @@ class DmgPainter {
     // ===============================================
     // draw arrow
 
-    final imageRect = Rect.fromCenter(
+    var imageRect = Rect.fromCenter(
       center: rect.center,
       width: image.width.toDouble(),
       height: image.height.toDouble(),
     );
 
+    imageRect = imageRect.translate(0, -60);
+
     final arrowPaint = Paint();
     arrowPaint.isAntiAlias = true;
+    arrowPaint.colorFilter =
+        const ui.ColorFilter.mode(Colors.white70, ui.BlendMode.srcIn);
 
     canvas.drawImage(image, imageRect.topLeft, arrowPaint);
 
@@ -70,11 +74,11 @@ class DmgPainter {
     // draw header text
 
     const horizOffset = 72.0;
-    const vertOffset = 52.0;
-    final footerVertOffset = rect.size.height - vertOffset - 60;
+    const vertOffset = 36.0;
+    final footerVertOffset = rect.size.height - vertOffset - 190;
     const footerFontSize = 34.0;
     const headerFontSize = 96.0;
-    const appName = 'DECKR';
+    const appName = 'Path Finder';
 
     final textPainter = TextPainter(
       text: TextSpan(
