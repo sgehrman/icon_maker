@@ -384,6 +384,7 @@ class _IconScreenState extends State<IconScreen> {
     await saveImageWithSize(imageData: savedImage!, size: 64);
     await saveImageWithSize(imageData: savedImage!, size: 128);
     await saveImageWithSize(imageData: savedImage!, size: 256);
+    await saveImageWithSize(imageData: savedImage!, size: 192);
     await saveImageWithSize(imageData: savedImage!, size: 512);
     await saveImageWithSize(imageData: savedImage!, size: 1024);
 
