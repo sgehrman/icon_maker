@@ -109,9 +109,15 @@ class _IconScreenState extends State<IconScreen> {
               onPressed: saveSafariIconImages,
               child: const Text('Save Safari Icons'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: savePathFinderIcon,
-              child: const Text('Path Finder Icon'),
+              child: const Text('Path Finder Year'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: savePathFinderIconFamily,
+              child: const Text('Path Finder Icon Family'),
             ),
             const SizedBox(height: 20),
             IconWidget(),
@@ -353,6 +359,57 @@ class _IconScreenState extends State<IconScreen> {
         filledRect.top + (filledRect.height / 2) - (textPainter.height / 2);
 
     textPainter.paint(canvas, Offset(horizOffset, vertOffset));
+
+    final pict = recorder.endRecording();
+
+    final resultImage = await pict.toImage(size.toInt(), size.toInt());
+
+    final data =
+        (await resultImage.toByteData(format: ui.ImageByteFormat.png))!;
+
+    resultImage.dispose();
+    pict.dispose();
+
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  // ============================================================
+
+  Future<void> savePathFinderIconFamily() async {
+    savedImage = await _generatePathFinderIconFamilyData(insetImage: true);
+    final noInsetImageData =
+        await _generatePathFinderIconFamilyData(insetImage: false);
+
+    await saveImageWithSize(imageData: noInsetImageData, size: 32);
+    await saveImageWithSize(imageData: savedImage!, size: 64);
+    await saveImageWithSize(imageData: savedImage!, size: 128);
+    await saveImageWithSize(imageData: savedImage!, size: 256);
+    await saveImageWithSize(imageData: savedImage!, size: 512);
+    await saveImageWithSize(imageData: savedImage!, size: 1024);
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<Uint8List> _generatePathFinderIconFamilyData({
+    required bool insetImage,
+  }) async {
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    const double size = 1024;
+
+    final imageRect = Offset.zero & const Size(size, size);
+
+    // imageRect = imageRect.deflate(30);
+
+    final image = insetImage
+        ? await assets.pathFinderImage
+        : await assets.pathFinderImageNoInset;
+
+    final srcRect =
+        Offset.zero & Size(image.width.toDouble(), image.height.toDouble());
+    canvas.drawImageRect(image, srcRect, imageRect, Paint());
 
     final pict = recorder.endRecording();
 
